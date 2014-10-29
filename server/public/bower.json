@@ -1,0 +1,31 @@
+{
+  "name": "Rapidshoot",
+  "version": "1.0.0",
+  "homepage": "https://github.com/AlvaroMartinez123/Project",
+  "authors": [
+    "(AlvaroMartinez123 <alvaro.mr.eagle@gmail.com>)",
+    "(AlejandroSantosS <alexhamakuko@gmail.com>)",
+    "(aliveand <g9-angelito@hotmail.com>)"
+  ],
+  "description": "Implementando bower",
+  "main": "index.html",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "Polymer"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "paper-elements": "Polymer/paper-elements#~0.4.2",
+    "polymer": "Polymer/polymer#~0.4.2",
+    "core-elements": "Polymer/core-elements#~0.4.2"
+  }
+}
