@@ -1,11 +1,22 @@
 var debug = require('debug')('Rapidshot');
 var express = require('express');
+var path = require('path');
+var bodyParser = require('body-parser');
+var fs = require('fs');
 
 var app = express();
 
-app.get('/', function(req, res){
-  res.send('Hello World');
-	debug('/ called');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+var basePath = path.join(__dirname, '/routes/');
+fs.readdirSync(basePath).forEach(function(filename) {
+	var basePathService = '/' + filename.replace(/\.js$/, '');
+	var serviceDefinition = basePath + filename;
+	app.use(basePathService, require(serviceDefinition));
 });
 
 var port =  process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 9001; 
