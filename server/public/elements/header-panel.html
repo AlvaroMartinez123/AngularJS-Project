@@ -4,7 +4,7 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 
-<polymer-element name="header-panel">
+<polymer-element name="header-panel" attributes="showLogin">
 
   <template>
     <style>    
@@ -29,13 +29,13 @@
       }
       #core_toolbar {
         color: rgb(255, 255, 255);
-        background-color: rgb(79, 125, 201);
+        background-color: #1C1C1C;
       }
       #section {
       	height: 100%;
         width: 100%;
         position: absolute;
-        background-image: url(http://www.loadthegame.com/wp-content/uploads/2014/03/call_of_duty_sledgehammer.jpg);
+        background-image: url(../images/call_of_duty_sledgehammer.jpg);
       }
       #core_card {
         position: relative;
@@ -97,20 +97,28 @@
         cursor:pointer;
         font-size:13px;
       }
+      #core_icon_button:hover {
+        background-color: #333;
+      }
+      #core_icon_button:active {
+        background-color: black;
+      }
+    
     </style>
     <core-header-panel mode="standard" id="core_header_panel">
       <core-toolbar id="core_toolbar">
-        <core-icon-button icon="menu" id="core_icon_button"></core-icon-button>
-        <div id="div">Header</div>
+        <core-icon-button on-tap={{coreSelected}} icon="menu" id="core_icon_button"></core-icon-button>
+        <div id="div">RapidShot</div>
       </core-toolbar>
       <section id="section" center-justified horizontal layout center>
-      	<core-card id="core_card" layout vertical>
+        
+      	<core-card id="core_card" layout vertical hidden?="{{showLogin}}">
       		<div id="register" start-justified horizontal layout start>
             <p id="p">REGISTER FREE</p>
           </div>
           <div id="container">
             <div id="facebook">
-              <paper-button label="Login Facebook" id="paper_button"></paper-button>
+              <paper-button label="Login with Facebook" id="paper_button"></paper-button>
             </div>
             <div id="form">
               <p id="p1">Create your account</p>
@@ -128,9 +136,11 @@
   </template>
 
   <script>
-
     Polymer({
-      
+      showLogin: false,
+      coreSelected: function() {
+        this.showLogin = !this.showLogin;
+      }
     });
 
   </script>

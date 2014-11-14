@@ -1,65 +1,62 @@
 var express = require('express');
 var router = express.Router();
-
-var scores = {};
-var numScores = 0;
+var scoreManager = require('../manager/score');
 
 router.post('/', newScore);
-router.put('/:scoreId', updateScore);
+router.put('/:scoreId', setScore);
 router.get('/:scoreId', getScore);
 router.delete('/:scoreId', delScore);
 router.get('/', getAll);
 
-router.param('scoreId', checkScoreExists);
-
 function newScore(req, res){
-  var score ={
-    _id: String(numScores),
-    player:"",
-    score: 0
-  };
-  
-  scores[score._id] = score;
-	numScores++;
-  
-	res.json(score);
-  
+  scoreManager.create(function(err, result){
+    res.json(result);
+  });
+    
 }
 
-function updateScore(req, res){
- var update={ 
-   _id: req.params.scoreId,
-   player: req.body.player,
-   score: req.body.score
-  };
-  
-  scores[req.params.scoreId] = update;
-	
-	res.json(update);
+function setScore(req, res, next){
+	var scoreId = req.params.scoreId;
+	var player = req.body.player;
+	var score = req.body.score;
+
+	scoreManager.setScore(scoreId, player, score, function(err, newScore) {
+		if (newScore === null) {
+			next(new Error(new Error(scoreId + ' not exists')));
+		} else {
+      res.json(newScore);
+		}
+		
+	});
   
 }
 
 function delScore(req, res){
-  	delete scores[req.params.scoreId];
-	
-    res.send(req.params.scoreId);
+	var scoreId = req.params.scoreId;
+	scoreManager.delScore(req.params.scoreId, function(err, result) {
+		if (result === 0) {
+			next(new Error(scoreId + ' not exists'));
+		} else {
+			res.send('Score[' + scoreId + ' deleted');
+		}
+	});
 }
 
-function getScore(req, res) {
-	res.json(req.score);
+function getScore(req, res, next) {
+  var scoreId = req.params.scoreId;
+  scoreManager.getById(scoreId, function(err, score){
+    if(score){
+      res.json(score);
+    } else {
+      next(new Error(new Error(scoreId + ' not exists')));
+    }
+  });
 }
-
 function getAll(req, res) {
-	res.json(scores);
+		scoreManager.getAll(function(err, scores) {
+		res.json(scores);
+	});
 }
 
-function checkScoreExists (req, res, next, scoreId) {
-	if (scores[scoreId]) {
-		req.score = scores[scoreId];
-		next();
-	} else {
-		next(new Error(scoreId + ' not exists'));
-	}
-}
 
 module.exports = router;
