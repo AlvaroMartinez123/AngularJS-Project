@@ -19,6 +19,11 @@ fs.readdirSync(basePath).forEach(function(filename) {
 	app.use(basePathService, require(serviceDefinition));
 });
 
+app.use(function(err, req, res, next){
+  debug(err.stack);
+  res.status(500).send('Something broken!');
+});
+
 var port =  process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 9001; 
 var ip =  process.env.OPENSHIFT_NODEJS_IP || process.env.IP || '0.0.0.0'; 
 

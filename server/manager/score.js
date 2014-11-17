@@ -23,19 +23,19 @@ function delScore(scoreId, callback) {
 	daoScore.delScore(scoreId, callback);
 }
 
-function setScore(scoreId, player, score, callback) {
-	
+function setScore(scoreId, name, points, callback) {
+  var points = Number(points);
 	var update = {
-		$set: {}
+		$set: {
+      player:name,
+      score:points
+    }
 	};
 	
-	update.$set[player] = player;
-	update.$set[score] = score;
-  
-	if (checkValidScore(score)) {
+	if (checkValidScore(points)) {
 		daoScore.updateScore(scoreId, update, callback);
 	} else {
-		callback('Invalid points[' + score + ']');
+		callback(new Error('Invalid points [' + points + ']'));
 	}
 }
 
