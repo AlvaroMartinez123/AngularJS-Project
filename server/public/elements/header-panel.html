@@ -4,6 +4,14 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 
+  
+  <link rel="import" href="../bower_components/polymer/polymer.html">
+  <link rel="import" href="../bower_components/core-animated-pages/core-animated-pages.html">
+  <link rel="import" href="../bower_components/core-animated-pages/transitions/slide-from-right.html">
+  <link rel="import" href="../bower_components/paper-item/paper-item.html">
+  <link rel="import" href="../bower_components/core-menu/core-menu.html">
+  <link rel="import" href="../lib/flatiron-director.html"> 
+
 <polymer-element name="header-panel" attributes="showLogin">
 
   <template>
@@ -14,6 +22,7 @@
         height: 100%;
         z-index: 0;
         box-sizing: border-box;
+
       }
       :host /deep/ input, :host /deep/ textarea{
         color:white;
@@ -31,11 +40,18 @@
         color: rgb(255, 255, 255);
         background-color: #1C1C1C;
       }
-      #section {
+      #section1 {
       	height: 100%;
         width: 100%;
-        position: absolute;
-        background-image: url(../images/call_of_duty_sledgehammer.jpg);
+        position: relative;
+        background-image: url(../images/index.jpg);
+      }
+      #section2{
+        background-image: url(../images/rank.jpg)
+                
+      }
+      #section3{
+        background-image: url("http://www.gameslife.gr/wp-content/uploads/2014/09/destiny-hd-wallpaper-515029.jpg")
       }
       #core_card {
         position: relative;
@@ -103,15 +119,25 @@
       #core_icon_button:active {
         background-color: black;
       }
-    
     </style>
-    <core-header-panel mode="standard" id="core_header_panel">
-      <core-toolbar id="core_toolbar">
-        <core-icon-button on-tap={{coreSelected}} icon="menu" id="core_icon_button"></core-icon-button>
-        <div id="div">RapidShot</div>
-      </core-toolbar>
-      <section id="section" center-justified horizontal layout center>
-        
+
+<flatiron-director route="{{route}}" autoHash></flatiron-director>
+<core-header-panel mode="standard" id="core_header_panel">
+  <core-toolbar id="core_toolbar">
+    <core-icon-button on-tap={{coreSelected}} icon="menu" id="core_icon_button"></core-icon-button>
+    <div id="div">RapidShot</div>
+    <core-menu horizontal layout valueattr="hash" selected="{{route}}">
+      <template repeat="{{page in pages}}">
+        <paper-item label="{{page.name}}"  hash="{{page.hash}}">
+          <a href="#{{page.hash}}"></a>
+        </paper-item>
+      </template>
+    </core-menu>
+
+  </core-toolbar>
+    <core-animated-pages valueattr="hash" selected="{{route}}" transitions="slide-from-right">
+
+      <section id="section1" hash="home" center-justified horizontal layout center>
       	<core-card id="core_card" layout vertical hidden?="{{showLogin}}">
       		<div id="register" start-justified horizontal layout start>
             <p id="p">REGISTER FREE</p>
@@ -128,21 +154,36 @@
               <paper-button label="Register" id="paper_button2"></paper-button>
               <p id="p2">Have an account?</p>
             </div>
-
           </div>
       	</core-card>
       </section>
-    </core-header-panel>
-  </template>
+
+      <section id="section2" hash="ranking">
+      </section>
+
+      <section id="section3" hash="media">
+      </section>
+
+   </core-animated-pages>
+</core-header-panel>
+</template>
 
   <script>
     Polymer({
+      ready: function(){
+       this.pages = [
+        {name: 'Home', hash: 'home'},
+        {name: 'Ranking', hash: 'ranking'},
+        {name: 'Media', hash: 'media'}
+      ];
+    },
+    /*coreBackground: function(){
+      this.style.backgroundImage="url('http://todops4.com/wp-content/uploads/2014/09/417.jpg')";
+    },*/
       showLogin: false,
       coreSelected: function() {
         this.showLogin = !this.showLogin;
       }
     });
-
   </script>
-
 </polymer-element>

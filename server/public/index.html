@@ -5,6 +5,7 @@
     <script src="bower_components/platform/platform.js"></script>
     <!-- 2. Load the component using an HTML Import -->
     <link rel="import" href="elements/header-panel.html">
+    
     <style>
 
       body, html {
@@ -16,6 +17,16 @@
   </head>
   <body>
     <!-- 3. Declare the element by its tag. -->
-    <header-panel></header-panel>
+    <header-panel>    <nav>
+      <core-toolbar tool>Left Drawer</core-toolbar>
+
+      <core-menu valueattr="hash" selected="{{route}}">
+  <template repeat="{{page in pages}}">
+    <paper-item label="{{page.name}}" hash="{{page.hash}}">
+      <a href="#{{page.hash}}"></a>
+    </paper-item>
+  </template>
+</core-menu>
+    </nav></header-panel>
   </body>
 </html>
