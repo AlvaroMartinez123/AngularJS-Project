@@ -1,0 +1,108 @@
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+
+<polymer-element name="login-card">
+<template>
+<style>
+:host {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  box-sizing: border-box;
+}
+:host /deep/ input, :host /deep/ textarea{
+  color:white;
+}
+  #core_card {
+  position: relative;
+  width: 400px;
+  height: 500px;
+  border-radius:0.4em;
+  border:1px solid #191919;
+  box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
+  color:white;
+  background:#333 ;
+  z-index: 1;
+
+  /*opacity: .95;*/
+}
+  #register p {
+  font-size: 100%;
+  margin-left: 5px;
+  font-weight: bold
+}
+#register {
+  background:#1C1C1C;
+  border-bottom-style: solid;
+  border-bottom-color: white;
+  border-bottom-width: 1px;
+  
+}
+#container {
+  width: 90%;
+  height: 100%;
+  margin: 0px auto;
+  text-align: center;
+}
+#paper_button {
+  text-align: center;
+  margin: 20px;
+}
+paper-input {
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+}
+#facebook {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: rgb(219, 224, 226);
+}
+#paper_button2{
+  width:90%;
+  margin-top: 20px;
+  position: relative;
+  border:1px solid rgba(0,0,0,0.4);
+  text-shadow:0 -1px 0 rgba(0,0,0,0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.3),
+    inset 0 10px 10px rgba(255,255,255,0.1);
+  border-radius:0.3em;
+  background:#0184ff;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:13px;
+}
+
+</style>
+	<core-card id="core_card" layout vertical>
+		<div id="register" start-justified horizontal layout start>
+      <p id="p">REGISTER FREE</p>
+    </div>
+    <div id="container">
+      <div id="facebook">
+        <paper-button label="Login with Facebook" id="paper_button"></paper-button>
+      </div>
+      <div id="form">
+        <p id="p1">Create your account</p>
+        <paper-input label="Usename" floatinglabel willvalidate id="paper_input" layout vertical></paper-input>
+        <paper-input  label="Password" type="password" floatinglabel willvalidate  id="paper_input1" layout vertical></paper-input>
+        <paper-input label="Email" floatinglabel willvalidate id="paper_input2" layout vertical></paper-input>
+        <paper-button label="Register" id="paper_button2"></paper-button>
+        <p id="p2">Have an account?</p>
+      </div>
+
+    </div>
+	</core-card>
+</template>
+
+<script>
+Polymer({
+
+});
+</script>
+
+</polymer-element>
