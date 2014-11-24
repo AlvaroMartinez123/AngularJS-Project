@@ -1,0 +1,54 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<polymer-element name="ranking-card">
+
+<template>
+    <style>    
+
+      #core_card {
+        position: relative;
+        width: 600px;
+        height: 800px;
+        border-radius:0.4em;
+        border:1px solid #191919;
+        box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
+        color:white;
+        background:#333;
+        opacity: .7;
+        }
+        table{
+          text-align: center;
+          width: 100%;
+
+        }
+    </style>
+    <core-card id="core_card" layout vertical>
+    <table border="2">
+      <tr>
+        <th>Player</th>
+        <th>Score</th>
+      </tr>
+      <tr>
+        <td>Pepe</td>
+        <td>10000</td>
+      </tr>
+    </table>
+
+    </core-card>
+
+</template>
+  <script>
+
+    Polymer({
+      ready: function(){
+        var score = "http://localhost:9001/score";
+        $.getJSON(score, function(result){
+          alert(result);
+        })
+      }
+
+    });
+
+  </script>
+
+</polymer-element>
