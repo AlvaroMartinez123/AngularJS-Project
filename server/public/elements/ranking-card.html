@@ -23,15 +23,18 @@
         }
     </style>
     <core-card id="core_card" layout vertical>
-    <table border="2">
-      <tr>
+    <table id="tab" border="2">
+      <tr >
         <th>Player</th>
         <th>Score</th>
       </tr>
-      <tr>
-        <td>Pepe</td>
-        <td>10000</td>
-      </tr>
+      <template repeat="{{score in scores}}">
+        <tr>
+          <td>{{score.player}}</td>
+          <td>{{score.score}}</td>
+        </tr>
+      </template>
+      
     </table>
 
     </core-card>
@@ -42,11 +45,24 @@
     Polymer({
       ready: function(){
         var score = "http://localhost:9001/score";
-        $.getJSON(score, function(result){
-          alert(result);
-        })
-      }
+  
+        var that = this;
 
+        $.getJSON(score,function(result){
+       
+        /* that.scores=[{player:"alvarito"},
+                      {score:"666"}];*/
+                    
+        that.scores=result;
+  
+     
+      });
+      
+
+
+     
+      },
+      
     });
 
   </script>

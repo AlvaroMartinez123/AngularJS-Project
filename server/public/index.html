@@ -18,16 +18,6 @@
   </head>
   <body>
     <!-- 3. Declare the element by its tag. -->
-    <header-panel>    <nav>
-      <core-toolbar tool>Left Drawer</core-toolbar>
-
-      <core-menu valueattr="hash" selected="{{route}}">
-  <template repeat="{{page in pages}}">
-    <paper-item label="{{page.name}}" hash="{{page.hash}}">
-      <a href="#{{page.hash}}"></a>
-    </paper-item>
-  </template>
-</core-menu>
-    </nav></header-panel>
+    <header-panel></header-panel>
   </body>
 </html>
