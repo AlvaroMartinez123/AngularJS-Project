@@ -28,10 +28,10 @@
         <th>Player</th>
         <th>Score</th>
       </tr>
-      <template repeat="{{score in scores}}">
+      <template repeat="{{user in users}}">
         <tr>
-          <td>{{score.player}}</td>
-          <td>{{score.score}}</td>
+          <td>{{user.name}}</td>
+          <td>{{user.score}}</td>
         </tr>
       </template>
       
@@ -44,17 +44,12 @@
 
     Polymer({
       ready: function(){
-        var score = "http://localhost:9001/score";
+        var user = "http://localhost:9001/user";
   
         var that = this;
+        $.getJSON(user,function(result){
 
-        $.getJSON(score,function(result){
-       
-        /* that.scores=[{player:"alvarito"},
-                      {score:"666"}];*/
-                    
-        that.scores=result;
-  
+        that.users=result;
      
       });
       

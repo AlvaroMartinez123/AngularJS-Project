@@ -1,13 +1,13 @@
 var db = require('../util/mongodb').db;
 var toObjectID = require('../util/mongodb').toObjectID;
-var col = db.bind('score');
+var col = db.bind('user');
 
-function create(score, callback) {
-	this.insert(score, callback);
+function create(user, callback) {
+	this.insert(user, callback);
 }
 
-function getById(scoreId, callback) {
-	this.findById(scoreId, callback);
+function getById(userId, callback) {
+	this.findById(userId, callback);
 }
 
 function getAll(callback) {
@@ -24,13 +24,13 @@ function delAll(callback) {
 	this.remove({}, callback);
 }
 
-function delScore(scoreId, callback) {
-	this.removeById(scoreId, callback);
+function delUser(userId, callback) {
+	this.removeById(userId, callback);
 }
 
-function updateScore(scoreId, update, callback) {
+function updateUser(userId, update, callback) {
 	var query = {
-		_id: toObjectID(scoreId)
+		_id: toObjectID(userId)
 	};
 	
 	var sort = [
@@ -45,8 +45,8 @@ col.bind({
 	getById: getById,
 	getAll: getAll,
 	delAll: delAll,
-	delScore: delScore,
-	updateScore: updateScore
+	delUser: delUser,
+	updateUser: updateUser
 });
 
 module.exports = col;
