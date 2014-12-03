@@ -11,7 +11,16 @@ function getById(userId, callback) {
 }
 
 function getAll(callback) {
-	this.find({}, function(err, cursor) {
+	this.find().sort({score: -1}, function(err, cursor) {
+		if (err) {
+			return callback(err);
+		}
+
+		cursor.toArray(callback);
+	});
+}
+function getAllScored(callback) {
+	this.find({score: {$exists: true}}).sort({score: -1}, function(err, cursor) {
 		if (err) {
 			return callback(err);
 		}
@@ -44,6 +53,7 @@ col.bind({
 	create: create,
 	getById: getById,
 	getAll: getAll,
+	getAllScored: getAllScored,
 	delAll: delAll,
 	delUser: delUser,
 	updateUser: updateUser

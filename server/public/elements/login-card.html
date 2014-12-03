@@ -79,8 +79,8 @@ paper-input {
       <div id="form">
         <p id="p1">Create your account</p>
         <paper-input label="Usename"  id="username" floatinglabel willvalidate layout vertical ></paper-input>
-        <paper-input  label="Password" type="password" floatinglabel willvalidate  id="password" layout vertical></paper-input>
-        <paper-input label="Email"  id="email" floatinglabel willvalidate layout vertical ></paper-input>
+        <paper-input  label="Password" type="password" floatinglabel willvalidate  id="password" layout vertical ></paper-input>
+        <paper-input label="Email" id="email" floatinglabel willvalidate layout vertical ></paper-input>
         <paper-button label="Register" on-tap={{handleRegister}} id="paper_button2"></paper-button>
         <p id="p2">Have an account?</p>
       </div>
@@ -104,6 +104,11 @@ var users;
 
 
 Polymer('login-card', {
+        ready: function() {
+        this.a="";
+        this.b="";
+      },
+     
   handleRegister: function(){
     var name = this.$.username.value;
     var password = this.$.password.value;
@@ -134,8 +139,6 @@ Polymer('login-card', {
       this.users.push(result);
     }.bind(this));
   }
-
-
 
 });
 </script>

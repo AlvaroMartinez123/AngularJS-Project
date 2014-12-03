@@ -3,10 +3,12 @@ var router = express.Router();
 var userManager = require('../manager/user');
 
 router.post('/', newUser);
+router.get('/scored', getAllScored);
 router.put('/:userId', setUser);
 router.get('/:userId', getUser);
 router.delete('/:userId', delUser);
 router.get('/', getAll);
+
 
 function newUser(req, res){
 	var userId = req.params.userId;
@@ -45,17 +47,22 @@ function delUser(req, res){
 
 function getUser(req, res, next) {
   var userId = req.params.userId;
-  userManager.getById(userId, function(err, score){
-    if(score){
-      res.json(score);
+  userManager.getById(userId, function(err, user){
+    if(user){
+      res.json(user);
     } else {
       next(new Error(new Error(userId + ' not exists')));
     }
   });
 }
 function getAll(req, res) {
-		userManager.getAll(function(err, scores) {
-		res.json(scores);
+		userManager.getAll(function(err, users) {
+		res.json(users);
+	});
+}
+function getAllScored(req, res) {
+		userManager.getAllScored(function(err, users) {
+		res.json(users);
 	});
 }
 

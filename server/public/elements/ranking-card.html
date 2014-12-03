@@ -14,29 +14,42 @@
         box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
         color:white;
         background:#333;
-        opacity: .7;
+        opacity: .8;
         }
         table{
           text-align: center;
           width: 100%;
-
+          border-collapse: collapse;
+        }
+        thead tr{
+          background-color: #1C1C1C;
+          border-bottom: 2px solid white;
+        }
+        tr{
+          border-bottom: 1px solid grey;
+        }
+        td{
+          padding: 10px;
+        }
+        th{
+          padding: 10px;
         }
     </style>
     <core-card id="core_card" layout vertical>
-    <table id="tab" border="2">
+    <table>
+    <thead>
       <tr >
         <th>Player</th>
         <th>Score</th>
       </tr>
+    </thead>
       <template repeat="{{user in users}}">
         <tr>
           <td>{{user.name}}</td>
           <td>{{user.score}}</td>
         </tr>
-      </template>
-      
+      </template>     
     </table>
-
     </core-card>
 
 </template>
@@ -44,20 +57,13 @@
 
     Polymer({
       ready: function(){
-        var user = "http://localhost:9001/user";
-  
+        var user = "http://localhost:9001/user/scored";
         var that = this;
+
         $.getJSON(user,function(result){
-
-        that.users=result;
-     
-      });
-      
-
-
-     
-      },
-      
+          that.users=result;
+        });
+      }     
     });
 
   </script>

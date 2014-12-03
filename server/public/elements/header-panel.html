@@ -1,10 +1,12 @@
 <link rel="import" href="../bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="../bower_components/core-icon/core-icon.html">
 <link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
 <link rel="import" href="../bower_components/core-header-panel/core-header-panel.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="ranking-card.html">
 <link rel="import" href="login-card.html">
+
   
   <link rel="import" href="../bower_components/polymer/polymer.html">
   <link rel="import" href="../bower_components/core-animated-pages/core-animated-pages.html">
@@ -72,12 +74,16 @@
         background-size: cover;
       }
       
-        @media screen and (max-width: 700px) {
+        @media screen and (max-width: 600px) {
           #core_card{
           opacity: .9;
           }
         }
-
+        @media screen and (max-width: 500px) {
+          #paper_items{
+            font-size: 0px;
+          }
+        }
       #core_icon_button:hover {
         background-color: #333;
       }
@@ -93,7 +99,7 @@
     <div id="div">RapidShot</div>
     <core-menu horizontal layout valueattr="hash" selected="{{route}}">
       <template repeat="{{page in pages}}">
-        <paper-item label="{{page.name}}"  hash="{{page.hash}}">
+        <paper-item id="paper_items" label="{{page.name}}" icon="{{page.icon}}"  hash="{{page.hash}}">
           <a href="#{{page.hash}}"></a>
         </paper-item>
       </template>
@@ -121,9 +127,9 @@
     Polymer({
       ready: function(){
        this.pages = [
-        {name: 'Home', hash: 'home'},
-        {name: 'Ranking', hash: 'ranking'},
-        {name: 'Media', hash: 'media'}
+        {name: 'Home', hash: 'home', icon: 'home'},
+        {name: 'Ranking', hash: 'ranking', icon: 'account-child'},
+        {name: 'Media', hash: 'media', icon: 'shop'}
       ];
         this.route = this.route || "home";
     },

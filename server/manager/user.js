@@ -19,7 +19,9 @@ function getById(userId, callback) {
 function getAll(callback) {
 	daoUser.getAll(callback);
 }
-
+function getAllScored(callback) {
+	daoUser.getAllScored(callback);
+}
 function delUser(userId, callback) {
 	daoUser.delUser(userId, callback);
 }
@@ -55,6 +57,7 @@ module.exports = {
 	create: create,
 	getById: getById,
 	getAll: getAll,
+	getAllScored: getAllScored,
 	delUser: delUser,
 	setUser: setUser
 };
