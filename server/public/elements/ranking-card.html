@@ -8,7 +8,7 @@
       #core_card {
         position: relative;
         width: 600px;
-        height: 800px;
+        height: 750px;
         border-radius:0.4em;
         border:1px solid #191919;
         box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
@@ -34,6 +34,12 @@
         th{
           padding: 10px;
         }
+        @media screen and (max-width: 600px) {
+          #core_card{
+            width: 400px;
+            height: 600px;
+          }
+        }
     </style>
     <core-card id="core_card" layout vertical>
     <table>
@@ -57,7 +63,7 @@
 
     Polymer({
       ready: function(){
-        var user = "http://localhost:9001/user/scored";
+        var user = "http://172.16.100.89:9001/user/scored";
         var that = this;
 
         $.getJSON(user,function(result){

@@ -138,8 +138,16 @@ Polymer('login-card', {
     doAjax({type: 'POST', url:'/', data:JSON.stringify(data)}, function(result){
       this.users.push(result);
     }.bind(this));
+  },
+  setUser: function(user, name){
+    var data = {
+      name:name,
+    }
+    var url = '/:' + user.userId;
+    doAjax({type: 'PUT', url:url, data:JSON.stringify(data)}, function(result){
+      this.users.user[name] = name;
+    }.bind(this));
   }
-
 });
 </script>
 

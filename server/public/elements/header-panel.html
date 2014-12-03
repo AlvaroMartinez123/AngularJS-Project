@@ -6,6 +6,7 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="ranking-card.html">
 <link rel="import" href="login-card.html">
+<link rel="import" href="profile-card.html">
 
   
   <link rel="import" href="../bower_components/polymer/polymer.html">
@@ -65,15 +66,26 @@
                 
       }
       #section3{
-        background-image: url("http://www.gameslife.gr/wp-content/uploads/2014/09/destiny-hd-wallpaper-515029.jpg");
+        background-image: url(../images/media.jpg);
         background-position: center;
-        background-attachment: fixed;
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
       }
-      
+      #section4{
+        background-image: url(../images/profile.jpg);
+        background-position: center center;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+
+                
+      }
+      #paper_items:hover{
+        background-color: #333;
+      }
         @media screen and (max-width: 600px) {
           #core_card{
           opacity: .9;
@@ -119,6 +131,11 @@
       <section id="section3" hash="media">
       </section>
 
+      <section id="section4" hash="profile" center-justified horizontal layout center>
+      <profile-card layout vertical></profile-card>
+      </section>
+
+
    </core-animated-pages>
 </core-header-panel>
 </template>
@@ -129,7 +146,8 @@
        this.pages = [
         {name: 'Home', hash: 'home', icon: 'home'},
         {name: 'Ranking', hash: 'ranking', icon: 'account-child'},
-        {name: 'Media', hash: 'media', icon: 'shop'}
+        {name: 'Media', hash: 'media', icon: 'shop'},
+        {name: 'Profile', hash: 'profile', icon: 'account-circle'}
       ];
         this.route = this.route || "home";
     },
