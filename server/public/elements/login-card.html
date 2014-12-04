@@ -142,10 +142,17 @@ Polymer('login-card', {
   setUser: function(user, name){
     var data = {
       name:name,
+      password:user.password,
+      email:user.email,
+      score:user.score
     }
-    var url = '/:' + user.userId;
+
+    console.log(user._id);
+
+    var url = '/' + user._id;
     doAjax({type: 'PUT', url:url, data:JSON.stringify(data)}, function(result){
-      this.users.user[name] = name;
+      user.name = name;
+
     }.bind(this));
   }
 });

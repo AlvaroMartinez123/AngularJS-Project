@@ -60,6 +60,7 @@ paper-input {
   font-size:13px;
 }
     </style>
+    <login-card hidden id="asd"></login-card>
     <core-card id="core_card" layout vertical>
    <div id="change" start-justified horizontal layout start>
       <p id="p">Change name</p>
@@ -81,15 +82,27 @@ paper-input {
 
 </template>
   <script>
+  function getUser(user){
+    var newname = this.$.new_username.value
+    var login =this.$.asd;
+    login.setUser(user, newname);
+    console.log(user.email+" de funcion");
+
+  }
 
     Polymer({
       handleName: function(){
-        var name = this.$.username.value;
-        var password = this.$.password.value;
         var email = this.$.email.value;
-        var newname = this.$.new_username.value;
+        var user = "http://localhost:9001/user/email/" + email;
+        var that = this;
+        console.log(user);
+        $.getJSON(user,function(result){
 
-      
+          getUser.bind(that)(result);
+          
+        });
+       
+
       }
     });
 

@@ -9,7 +9,9 @@ function create(user, callback) {
 function getById(userId, callback) {
 	this.findById(userId, callback);
 }
-
+function getByEmail(email, callback) {
+	this.findOne({email: email}, callback);
+}
 function getAll(callback) {
 	this.find().sort({score: -1}, function(err, cursor) {
 		if (err) {
@@ -20,7 +22,7 @@ function getAll(callback) {
 	});
 }
 function getAllScored(callback) {
-	this.find({score: {$exists: true}}).sort({score: -1}, function(err, cursor) {
+	this.find({score: {$gt: 0}}).sort({score: -1}, function(err, cursor) {
 		if (err) {
 			return callback(err);
 		}
@@ -53,6 +55,7 @@ col.bind({
 	create: create,
 	getById: getById,
 	getAll: getAll,
+	getByEmail: getByEmail,
 	getAllScored: getAllScored,
 	delAll: delAll,
 	delUser: delUser,

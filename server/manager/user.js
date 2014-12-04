@@ -5,7 +5,8 @@ function create(name, password, email, callback) {
 	var user = {
 		name: name,
 		password: password,
-		email: email
+		email: email,
+		score: Number(0)
 	};
 
 	daoUser.create(user, callback);
@@ -15,7 +16,9 @@ function create(name, password, email, callback) {
 function getById(userId, callback) {
 	daoUser.getById(userId, callback);
 }
-
+function getByEmail(email, callback) {
+	daoUser.getByEmail(email, callback);
+}
 function getAll(callback) {
 	daoUser.getAll(callback);
 }
@@ -26,13 +29,13 @@ function delUser(userId, callback) {
 	daoUser.delUser(userId, callback);
 }
 
-function setUser(userId, name, password, email, points, callback) {
-  var points = Number(points);
+function setUser(userId, user, callback) {
+  var points = Number(user.score);
 	var update = {
 		$set: {
-      name:name,
-      password:password,
-      email:email,
+      name:user.name,
+      password:user.password,
+      email:user.email,
       score:points
     }
 	};
@@ -57,6 +60,7 @@ module.exports = {
 	create: create,
 	getById: getById,
 	getAll: getAll,
+	getByEmail: getByEmail,
 	getAllScored: getAllScored,
 	delUser: delUser,
 	setUser: setUser

@@ -3,6 +3,7 @@ var router = express.Router();
 var userManager = require('../manager/user');
 
 router.post('/', newUser);
+router.get('/email/:email', getByEmail);
 router.get('/scored', getAllScored);
 router.put('/:userId', setUser);
 router.get('/:userId', getUser);
@@ -22,11 +23,15 @@ function newUser(req, res){
 
 function setUser(req, res, next){
 	var userId = req.params.userId;
-	var name = req.body.name;
-	var password = req.body.password;
-	var email = req.body.email;
-	var score = req.body.score;
-	userManager.setUser(userId, name, password, email, score, function(err, newUser) {
+	if(req.body.score != null){ var score = req.body.score;}else{ var score = 0;}
+	var user = {
+		name : req.body.name,
+		password : req.body.password,
+		email : req.body.email,
+		score : score
+	}
+	
+	userManager.setUser(userId, user, function(err, newUser) {
     if (err) {
       return next(err);
     }
@@ -52,6 +57,16 @@ function getUser(req, res, next) {
       res.json(user);
     } else {
       next(new Error(new Error(userId + ' not exists')));
+    }
+  });
+}
+function getByEmail(req, res, next) {
+  var email = req.params.email;
+  userManager.getByEmail(email, function(err, user){
+    if(user){
+      res.json(user);
+    } else {
+      next(new Error(new Error(email + ' not exists')));
     }
   });
 }
