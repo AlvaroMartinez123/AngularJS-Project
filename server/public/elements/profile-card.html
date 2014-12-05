@@ -1,14 +1,14 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<polymer-element name="profile-card">
+<polymer-element name="profile-card" attributes="showChanged">
 
 <template>
     <style>    
 
       #core_card {
         position: relative;
-        width: 500px;
-        height: 550px;
+        width: 400px;
+        height: 530px;
         border-radius:0.4em;
         border:1px solid #191919;
         box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
@@ -59,9 +59,54 @@ paper-input {
   cursor:pointer;
   font-size:13px;
 }
+#changed_card {
+  position: relative;
+  width: 400px;
+  height: 150px;
+  border-radius:0.4em;
+  border:1px solid #191919;
+  box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
+  color:white;
+  background:#333 ;
+  z-index: 1;
+
+  /*opacity: .95;*/
+}
+#return{
+  width:200px;
+  position: relative;
+  border:1px solid rgba(0,0,0,0.4);
+  text-shadow:0 -1px 0 rgba(0,0,0,0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.3),
+    inset 0 10px 10px rgba(255,255,255,0.1);
+  border-radius:0.3em;
+  background:#0184ff;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:13px;
+}
+#register {
+  background:#1C1C1C;
+  border-bottom-style: solid;
+  border-bottom-color: white;
+  border-bottom-width: 1px;
+  
+}
+  #register p {
+  font-size: 100%;
+  margin-left: 5px;
+  font-weight: bold
+}
+@media screen and (max-width: 600px) {
+    #core_card{
+    opacity: .9;
+    }
+  }
     </style>
     <login-card hidden id="asd"></login-card>
-    <core-card id="core_card" layout vertical>
+    <core-card id="core_card" layout vertical hidden?="{{showChanged}}">
    <div id="change" start-justified horizontal layout start>
       <p id="p">Change name</p>
     </div>
@@ -79,21 +124,36 @@ paper-input {
 
     </div>
     </core-card>
+    <core-card id="changed_card" layout vertical hidden?="{{!showChanged}}">
+    <div id="register" start-justified horizontal layout start>
+      <p id="p">Name Changed</p>
+    </div>
+    <div id="container">
+    <p>Your name was succesfully changed</p>
+    <paper-button label="Return" on-tap={{handleReturn}} id="return"></paper-button>
+    </div>
+  </core-card>
 
 </template>
   <script>
   function getUser(user){
     var newname = this.$.new_username.value
     var login =this.$.asd;
+
     login.setUser(user, newname);
-    console.log(user.email+" de funcion");
+    this.showChanged = !this.showChanged;
+
+    this.$.username.value = "";
+    this.$.password.value = "";
+    this.$.email.value = "";
+    this.$.new_username.value = "";
 
   }
 
     Polymer({
       handleName: function(){
         var email = this.$.email.value;
-        var user = "http://localhost:9001/user/email/" + email;
+        var user = "/user/email/" + email;
         var that = this;
         console.log(user);
         $.getJSON(user,function(result){
@@ -103,6 +163,9 @@ paper-input {
         });
        
 
+      },
+      handleReturn: function(){
+        this.showChanged = !this.showChanged;
       }
     });
 

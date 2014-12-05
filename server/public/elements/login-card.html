@@ -2,7 +2,7 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 
 
-<polymer-element name="login-card">
+<polymer-element name="login-card" attributes="showRegistered">
 <template>
 <style>
   #core_card {
@@ -66,9 +66,36 @@ paper-input {
   cursor:pointer;
   font-size:13px;
 }
+ #registered_card {
+  position: relative;
+  width: 400px;
+  height: 150px;
+  border-radius:0.4em;
+  border:1px solid #191919;
+  box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
+  color:white;
+  background:#333 ;
+  z-index: 1;
 
+  /*opacity: .95;*/
+}
+#return{
+  width:200px;
+  position: relative;
+  border:1px solid rgba(0,0,0,0.4);
+  text-shadow:0 -1px 0 rgba(0,0,0,0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.3),
+    inset 0 10px 10px rgba(255,255,255,0.1);
+  border-radius:0.3em;
+  background:#0184ff;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:13px;
+}
 </style>
-	<core-card id="core_card" layout vertical>
+	<core-card id="core_card" layout vertical hidden?="{{showRegistered}}">
 		<div id="register" start-justified horizontal layout start>
       <p id="p">REGISTER FREE</p>
     </div>
@@ -87,6 +114,15 @@ paper-input {
 
     </div>
 	</core-card>
+  <core-card id="registered_card" layout vertical hidden?="{{!showRegistered}}">
+    <div id="register" start-justified horizontal layout start>
+      <p id="p">REGISTERED</p>
+    </div>
+    <div id="container">
+    <p>Welcome to Rapidshot!</p>
+    <paper-button label="Return" on-tap={{handleReturn}} id="return"></paper-button>
+    </div>
+  </core-card>
 </template>
 
 <script>
@@ -108,19 +144,23 @@ Polymer('login-card', {
         this.a="";
         this.b="";
       },
-     
+  showRegistered : false,
   handleRegister: function(){
     var name = this.$.username.value;
     var password = this.$.password.value;
     var email = this.$.email.value;
 
       this.newUser(name, password, email);
-    
+      this.showRegistered = !this.showRegistered;
+      
     this.$.username.value = "";
     this.$.password.value = "";
     this.$.email.value = "";
 
   },
+  handleReturn: function(){
+      this.showRegistered = !this.showRegistered;
+    },
   created: function() {
      if (!users) {
        doAjax({}, function(data) {
