@@ -8,7 +8,7 @@
   #core_card {
   position: relative;
   width: 400px;
-  height: 500px;
+  height: auto;
   border-radius:0.4em;
   border:1px solid #191919;
   box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
@@ -32,7 +32,7 @@
 }
 #container {
   width: 90%;
-  height: 100%;
+  height: auto;
   margin: 0px auto;
   text-align: center;
 }
@@ -193,6 +193,15 @@ Polymer('login-card', {
     doAjax({type: 'PUT', url:url, data:JSON.stringify(data)}, function(result){
       user.name = name;
 
+    }.bind(this));
+  },
+  deleteUser: function(user) {
+    var url = '/' + user._id;
+    doAjax({type: 'DELETE', url:url}, function(result){
+      var i = this.users.indexOf(user);
+      if(i >= 0){
+        this.scores.splice(i, 1);
+      }
     }.bind(this));
   }
 });

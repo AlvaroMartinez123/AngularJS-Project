@@ -5,17 +5,17 @@
 <template>
     <style>    
 
-      #core_card {
-        position: relative;
-        width: 400px;
-        height: 530px;
-        border-radius:0.4em;
-        border:1px solid #191919;
-        box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
-        color:white;
-        background:#333;
-        }
-          #change p {
+#core_card {
+  position: relative;
+  width: 400px;
+  height: auto;
+  border-radius:0.4em;
+  border:1px solid #191919;
+  box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
+  color:white;
+  background:#333;
+  }
+#change p {
   font-size: 100%;
   margin-left: 5px;
   font-weight: bold
@@ -29,7 +29,7 @@
 }
 #container {
   width: 90%;
-  height: 100%;
+  height: auto;
   margin: 0px auto;
   text-align: center;
 }
@@ -58,6 +58,7 @@ paper-input {
   font-weight:bold;
   cursor:pointer;
   font-size:13px;
+  margin-bottom: 20px;
 }
 #changed_card {
   position: relative;
@@ -103,12 +104,13 @@ paper-input {
     #core_card{
     opacity: .9;
     }
+
   }
     </style>
     <login-card hidden id="asd"></login-card>
     <core-card id="core_card" layout vertical hidden?="{{showChanged}}">
    <div id="change" start-justified horizontal layout start>
-      <p id="p">Change name</p>
+      <p id="p">Change name / Delete user</p>
     </div>
     <div id="container">
       <div id="form">
@@ -116,6 +118,7 @@ paper-input {
         <paper-input label="Username"  id="username" floatinglabel willvalidate layout vertical ></paper-input>
         <paper-input  label="Password" type="password" floatinglabel willvalidate  id="password" layout vertical ></paper-input>
         <paper-input label="Email" id="email" floatinglabel willvalidate layout vertical ></paper-input>
+        <paper-button label="Delete user" on-tap={{handleDelete}} id="paper_button2"></paper-button>
         <p id="p1">New name</p>
         <paper-input label="New username"  id="new_username" floatinglabel willvalidate layout vertical ></paper-input>
         <paper-button label="Change name" on-tap={{handleName}} id="paper_button2"></paper-button>
@@ -126,10 +129,10 @@ paper-input {
     </core-card>
     <core-card id="changed_card" layout vertical hidden?="{{!showChanged}}">
     <div id="register" start-justified horizontal layout start>
-      <p id="p">Name Changed</p>
+      <p id="p">Saved changes</p>
     </div>
     <div id="container">
-    <p>Your name was succesfully changed</p>
+    <p>Your changes were succesfully saved</p>
     <paper-button label="Return" on-tap={{handleReturn}} id="return"></paper-button>
     </div>
   </core-card>
@@ -149,7 +152,18 @@ paper-input {
     this.$.new_username.value = "";
 
   }
+  function delUser(user){
+    var login =this.$.asd;
+    console.log(user);
+    login.deleteUser(user);
+    this.showChanged = !this.showChanged;
 
+    this.$.username.value = "";
+    this.$.password.value = "";
+    this.$.email.value = "";
+    this.$.new_username.value = "";
+
+  }
     Polymer({
       handleName: function(){
         var email = this.$.email.value;
@@ -157,12 +171,17 @@ paper-input {
         var that = this;
         console.log(user);
         $.getJSON(user,function(result){
-
           getUser.bind(that)(result);
-          
         });
-       
-
+      },
+      handleDelete: function() {
+        var email = this.$.email.value;
+        var user = "/user/email/" + email;
+        var that = this;
+        console.log(user);
+        $.getJSON(user,function(result){
+          delUser.bind(that)(result);
+        });
       },
       handleReturn: function(){
         this.showChanged = !this.showChanged;

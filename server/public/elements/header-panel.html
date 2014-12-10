@@ -112,7 +112,7 @@
     <div id="div">RapidShot</div>
     <core-menu horizontal layout valueattr="hash" selected="{{route}}">
       <template repeat="{{page in pages}}">
-        <paper-item id="paper_items" label="{{page.name}}" icon="{{page.icon}}"  hash="{{page.hash}}">
+        <paper-item on-tap="{{selected}}" id="paper_items" label="{{page.name}}" icon="{{page.icon}}"  hash="{{page.hash}}">
           <a href="#{{page.hash}}"></a>
         </paper-item>
       </template>
@@ -126,7 +126,7 @@
       </section>
 
       <section id="section2" hash="ranking" center-justified horizontal layout center>
-      <ranking-card layout vertical></ranking-card>
+      <ranking-card id="ranking_card" layout vertical></ranking-card>
       </section>
 
       <section id="section3" hash="media">
@@ -158,6 +158,10 @@
       showLogin: false,
       coreSelected: function() {
         this.showLogin = !this.showLogin;
+      },
+      selected: function() {
+
+        this.$.ranking_card.ready();
       }
     });
   </script>
