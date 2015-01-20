@@ -197,12 +197,13 @@ function doAjax(options, success, error) {
        options.dataType = options.dataType || 'json';
        options.contentType = options.contentType || 'application/json; charset=UTF-8';
        options.success = success;
-
+       if (socket.io.engine.id){
+        options.url += '?socketId='+ socket.io.engine.id;
+       }
        $.ajax(options);
-     }
+     };
 
 var users;
-
 
 Polymer('login-card', {
         ready: function() {
@@ -226,7 +227,7 @@ Polymer('login-card', {
   handleReturn: function(){
       this.showRegistered = !this.showRegistered;
     },
-  created: function() {
+    created: function() {
      if (!users) {
        doAjax({}, function(data) {
          users = data;
@@ -269,7 +270,8 @@ Polymer('login-card', {
       }
     }.bind(this));
   }
-});
+
+  });
 </script>
 
 </polymer-element>

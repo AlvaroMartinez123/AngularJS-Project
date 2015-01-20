@@ -66,18 +66,48 @@
 
 </template>
   <script>
+/*
+        socket.on('userDeleted', function(userId) {
+          for (var i = 0; i < users.length; i++) {
+            if (userId === users[i]._id) {
+              users.splice(i, 1);
+              console.log("user"+userId+"deleted");
+            }
+          }
+        });
+
+        socket.on('userSetted', function(user, newname) {
+          for (var i = 0; i < users.length; i++) {
+            console.log("userSetted");
+            if (user._id === users[i]._id) {
+              users[i].name = newname;
+            }
+            
+          }
+        });
+
+*/
+    var refresh = function() {
+      var user = "/user/scored";
+      var that = this;
+
+      $.getJSON(user,function(result){
+        that.users=result;
+      });
+    }
 
     Polymer({
       ready: function(){
-        var user = "/user/scored";
-        var that = this;
-
-        $.getJSON(user,function(result){
-          that.users=result;
+        refresh = refresh.bind(this);
+        socket.on('userSetted', function(){
+          refresh();
         });
+        socket.on('userDeleted', function(){
+          refresh();
+        });
+        refresh();    
       }     
     });
-
   </script>
 
 </polymer-element>

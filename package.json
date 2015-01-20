@@ -10,7 +10,8 @@
     "express": "~4.10.1",
     "debug": "~2.1.0",
     "body-parser": "~1.9.2",
-    "mongoskin": "~1.4.4"
+    "mongoskin": "~1.4.4",
+    "socket.io": "~1.2.1"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
