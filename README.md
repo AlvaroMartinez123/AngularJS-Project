@@ -37,4 +37,4 @@ The only tool that you will need to kill your enemies, will be your skill with t
 
 * [Alvaro Martinez](https://github.com/AlvaroMartinez123)
 * [Alejandro Santos](https://github.com/AlejandroSantosS)
-* [Gianmarcos Bravo Ancco](https://github.com/Aliveand)
+* [Eduardo Pileño Merchan](https://github.com/pile633)

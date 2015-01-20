@@ -91,10 +91,34 @@
           opacity: .9;
           }
         }
-        @media screen and (max-width: 500px) {
+
+      @media screen and (max-width: 550px) {
           #paper_items{
             font-size: 0px;
+            padding: 5px;
+            margin: 15px;
           }
+        }
+
+        @media screen and (max-width: 450px) {
+          #paper_items{
+            font-size: 0px;
+            padding: 5px;
+            margin: 5px;
+          }
+        }
+
+        @media screen and (max-width: 400px) {
+          #paper_items{
+            font-size: 0px;
+            padding: 0px;
+            padding-left: 10px;
+            margin: 0px;
+          }
+        }
+
+        #paper_items{
+          min-width: 25px;
         }
         
       #core_icon_button:hover {
@@ -103,6 +127,7 @@
       #core_icon_button:active {
         background-color: black;
       }
+
     </style>
 
 <flatiron-director route="{{route}}" autoHash></flatiron-director>

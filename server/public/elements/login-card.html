@@ -54,6 +54,7 @@ paper-input {
 }
 #paper_button2{
   width:90%;
+  margin-bottom: 10px;
   margin-top: 20px;
   position: relative;
   border:1px solid rgba(0,0,0,0.4);
@@ -113,7 +114,7 @@ paper-input {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
 }
-#section1 {
+#section {
   height: auto;
 
 }
@@ -145,7 +146,7 @@ paper-input {
       <paper-tab id="paper_tab" inline flex center-center horizontal layout active>REGISTER</paper-tab>
       <paper-tab id="paper_tab1" inline flex center-center horizontal layout>LOGIN</paper-tab>
     </paper-tabs>
-    <section id="section1" flex relative>
+    <section id="section" flex relative>
       <core-animated-pages selected="{{ $.paper_tabs.selected }}" lastselected="0" selectedindex="0" notap id="core_animated_pages">
           <section id="section2" layout horizontal center center-justified active>
             <core-card id="core_card" layout vertical hidden?="{{showRegistered}}">
@@ -156,7 +157,6 @@ paper-input {
                   <paper-input  label="Password" type="password" floatinglabel willvalidate  id="password" layout vertical required></paper-input>
                   <paper-input label="Email" id="email" floatinglabel willvalidate layout vertical required></paper-input>
                   <paper-button label="Register" on-tap={{handleRegister}} id="paper_button2"></paper-button>
-                  <p id="p2">Have an account?</p>
                 </div>
               </div>
             </core-card>
@@ -166,11 +166,9 @@ paper-input {
               <div id="container">
                 <div id="facebook"><paper-button label="Login with Facebook" id="paper_button"></paper-button></div>
                 <div id="form">
-                  <p id="p1">Login</p>
                   <paper-input label="Usename"  id="username" floatinglabel willvalidate layout vertical required></paper-input>
                   <paper-input  label="Password" type="password" floatinglabel willvalidate  id="password" layout vertical required></paper-input>
                   <paper-button label="Login" on-tap={{handleRegister}} id="paper_button2"></paper-button>
-                  <p id="p2">Have an account?</p>
                 </div>
               </div>
             </core-card>
