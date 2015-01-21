@@ -1,7 +1,9 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-input/paper-input-decorator.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 
 <polymer-element name="login-card" attributes="showRegistered">
 <template>
@@ -54,8 +56,8 @@ paper-input {
 }
 #paper_button2{
   width:90%;
-  margin-bottom: 10px;
   margin-top: 20px;
+  margin-bottom: 20px;
   position: relative;
   border:1px solid rgba(0,0,0,0.4);
   text-shadow:0 -1px 0 rgba(0,0,0,0.4);
@@ -114,7 +116,7 @@ paper-input {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
 }
-#section {
+#section1 {
   height: auto;
 
 }
@@ -142,21 +144,22 @@ paper-input {
 </style>
 <div center-justified horizontal layout center>
 <section id="sectionp">
-    <paper-tabs noink nobar selected="0" selectedindex="0" id="paper_tabs" horizontal center layout>
+    <paper-tabs noink nobar hidden?="{{showRegistered}}" selected="0" selectedindex="0" id="paper_tabs" horizontal center layout>
       <paper-tab id="paper_tab" inline flex center-center horizontal layout active>REGISTER</paper-tab>
       <paper-tab id="paper_tab1" inline flex center-center horizontal layout>LOGIN</paper-tab>
     </paper-tabs>
-    <section id="section" flex relative>
+    <section id="section1" flex relative>
       <core-animated-pages selected="{{ $.paper_tabs.selected }}" lastselected="0" selectedindex="0" notap id="core_animated_pages">
           <section id="section2" layout horizontal center center-justified active>
             <core-card id="core_card" layout vertical hidden?="{{showRegistered}}">
               <div id="container">
                 <div id="form">
                   <p id="p3">Create your account</p>
-                  <paper-input label="Usename"  id="username" floatinglabel willvalidate layout vertical required></paper-input>
-                  <paper-input  label="Password" type="password" floatinglabel willvalidate  id="password" layout vertical required></paper-input>
-                  <paper-input label="Email" id="email" floatinglabel willvalidate layout vertical required></paper-input>
+                  <paper-input label="Username"  id="username" floatinglabel  layout vertical error="Username required" required></paper-input>
+                  <paper-input  label="Password" type="password" floatinglabel   id="password" layout vertical error="Password required" required></paper-input>
+                  <paper-input label="Email" id="email" floatinglabel error="Email required" layout vertical required></paper-input>
                   <paper-button label="Register" on-tap={{handleRegister}} id="paper_button2"></paper-button>
+
                 </div>
               </div>
             </core-card>
@@ -166,9 +169,11 @@ paper-input {
               <div id="container">
                 <div id="facebook"><paper-button label="Login with Facebook" id="paper_button"></paper-button></div>
                 <div id="form">
-                  <paper-input label="Usename"  id="username" floatinglabel willvalidate layout vertical required></paper-input>
-                  <paper-input  label="Password" type="password" floatinglabel willvalidate  id="password" layout vertical required></paper-input>
-                  <paper-button label="Login" on-tap={{handleRegister}} id="paper_button2"></paper-button>
+                  <p id="p1">Login</p>
+                  <paper-input label="Username"  id="username_login" floatinglabel  layout vertical error="Valid username required" required></paper-input>
+                  <paper-input  label="Password" type="password" floatinglabel   id="password_login" layout vertical error="Valid password required" required></paper-input>
+                  <paper-button label="Login" id="paper_button2"></paper-button>
+
                 </div>
               </div>
             </core-card>
@@ -186,6 +191,7 @@ paper-input {
     <paper-button label="Return" on-tap={{handleReturn}} id="return"></paper-button>
     </div>
   </core-card>
+  <paper-toast id="fill" text="Fill all the fields"></paper-toast>
 </template>
 
 <script>
@@ -209,18 +215,32 @@ Polymer('login-card', {
         this.b="";
       },
   showRegistered : false,
-  handleRegister: function(){
+  validate: function(){
     var name = this.$.username.value;
     var password = this.$.password.value;
     var email = this.$.email.value;
 
-      this.newUser(name, password, email);
-      this.showRegistered = !this.showRegistered;
-      
-    this.$.username.value = "";
-    this.$.password.value = "";
-    this.$.email.value = "";
+    if(name === "" || password === "" || email === ""){
+      return false;
+    }else{
+      return true;
+    }
+  },
+  handleRegister: function(){
+    if(this.validate()){
+      var name = this.$.username.value;
+      var password = this.$.password.value;
+      var email = this.$.email.value;
 
+        this.newUser(name, password, email);
+        this.showRegistered = !this.showRegistered;
+        
+      this.$.username.value = "";
+      this.$.password.value = "";
+      this.$.email.value = "";
+    }else{
+      this.$.fill.show();
+    }
   },
   handleReturn: function(){
       this.showRegistered = !this.showRegistered;
