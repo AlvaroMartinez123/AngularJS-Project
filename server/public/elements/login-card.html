@@ -176,7 +176,7 @@ paper-input {
 </style>
 <app-login id="login"></app-login>
 <div center-justified horizontal layout center>
-<section id="sectionp">
+<section id="sectionp" >
     <paper-tabs noink nobar hidden?="{{showRegistered}}" selected="0" selectedindex="0" id="paper_tabs" horizontal center layout>
       <paper-tab id="paper_tab" inline flex center-center horizontal layout active>REGISTER</paper-tab>
       <paper-tab id="paper_tab1" inline flex center-center horizontal layout>LOGIN</paper-tab>
@@ -200,8 +200,8 @@ paper-input {
           <section id="section3"  layout horizontal center center-justified active>
             <core-card id="core_card" layout vertical hidden?="{{showRegistered}}">
               <div id="container">
-                <paper-item id="signin" label="Sign In" on-click="{{fireLogin}}" hidden?="{{$.login.logged}}" icon="account-circle"></paper-item>
-                <core-item id="signout" src="{{photoUrl}}" label="Sign Out" on-click="{{fireLogout}}"  hidden?="{{!$.login.logged}}"></core-item>
+                <paper-item id="signin" label="Sign In" on-click="{{fireLogin}}" hidden?="{{logged}}" icon="account-circle"></paper-item>
+                <core-item id="signout" src="{{photoUrl}}" label="Sign Out" on-click="{{fireLogout}}"  hidden?="{{!logged}}"></core-item>
                 <div id="form">
                   <p id="p1">Login</p>
                   <paper-input label="Username"  id="username_login" floatinglabel  layout vertical error="Valid username required" required></paper-input>
@@ -304,15 +304,15 @@ var getProfile = (function() {
 
   return function() {
     var deferred = $.Deferred();
-    console.log("getProfile3");
+
     if (profile) {
-      console.log("getProfile2");
+
       return deferred.resolve(profile);
     } else {
 
-  console.log("getProfile");
+
       doAjax({url: '/photo/profile'}).done(function(user) {
-        console.log("getProfile4");
+
         profile = user;
         deferred.resolve(profile);
       }).fail(function(jqXHR, textStatus, errorThrown) {
@@ -415,7 +415,6 @@ Polymer('login-card', {
       if (this.logged) {
         getProfile().done(function(user) {
           this.photoUrl = user._json.picture;
-          console.log(user._json.picture);
         }.bind(this)).fail(function() {
           this.photoUrl = '';
         }.bind(this));
