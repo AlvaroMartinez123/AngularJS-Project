@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var userManager = require('../manager/user');
+var ensureAuth = require('../middleware/sec');
+var debug = require('debug')('rapidshot-route-score');
+
 
 function worker(io) {
 

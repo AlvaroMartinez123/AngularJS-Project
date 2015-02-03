@@ -4,8 +4,9 @@
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/core-item/core-item.html">
 
-<polymer-element name="login-card" attributes="showRegistered">
+<polymer-element name="login-card" attributes="showRegistered, logged">
 <template>
 <style>
   #core_card {
@@ -141,7 +142,39 @@ paper-input {
   border-bottom: 1px solid white;
   padding-bottom: 10px;
 }
+
+     #signout {
+       color: white;
+       background-color: rgba(170,0,0,0.40);
+       border-radius: 5px;
+     }
+
+     #signout::shadow core-icon div {
+       border-radius: 50%;
+     }
+     #signin {
+      display: inline-block;
+      background: #cc3732;
+      color: white;
+      width: 175px;
+      border-radius: 5px;
+    }
+    #signin:hover {
+      background: #e74b37;
+      cursor: hand;
+    }
+    #signin.label {
+      font-weight: bold;
+    }
+    
+    #signin.buttonText {
+      display: inline-block;
+      vertical-align: middle;
+      padding-left: 40px;
+      padding-right: 40px;
+    }
 </style>
+<app-login id="login"></app-login>
 <div center-justified horizontal layout center>
 <section id="sectionp">
     <paper-tabs noink nobar hidden?="{{showRegistered}}" selected="0" selectedindex="0" id="paper_tabs" horizontal center layout>
@@ -167,7 +200,8 @@ paper-input {
           <section id="section3"  layout horizontal center center-justified active>
             <core-card id="core_card" layout vertical hidden?="{{showRegistered}}">
               <div id="container">
-                <div id="facebook"><paper-button label="Login with Facebook" id="paper_button"></paper-button></div>
+                <paper-item id="signin" label="Sign In" on-click="{{fireLogin}}" hidden?="{{$.login.logged}}" icon="account-circle"></paper-item>
+                <core-item id="signout" src="{{photoUrl}}" label="Sign Out" on-click="{{fireLogout}}"  hidden?="{{!$.login.logged}}"></core-item>
                 <div id="form">
                   <p id="p1">Login</p>
                   <paper-input label="Username"  id="username_login" floatinglabel  layout vertical error="Valid username required" required></paper-input>
@@ -196,19 +230,102 @@ paper-input {
 
 <script>
 function doAjax(options, success, error) {
-       options.type = options.type || 'GET';
-       options.url = '/user' + (options.url || '');
-       options.dataType = options.dataType || 'json';
-       options.contentType = options.contentType || 'application/json; charset=UTF-8';
-       options.success = success;
-       if (socket.io.engine.id){
-        options.url += '?socketId='+ socket.io.engine.id;
-       }
-       $.ajax(options);
+  var deferred = $.Deferred();
+  var self = this;
+  options.type = options.type || 'GET';
+  options.url = options.url || '';
+  if (socket.io.engine.id) {
+    options.url += '?socketId=' + socket.io.engine.id;
+  }
+  options.dataType = options.dataType || 'json';
+  options.contentType = options.contentType || 'application/json; charset=UTF-8';
+  options.success = success;
+  options.error = (typeof error === 'function');
+  options.cache = false;
+  options.async = true;
+
+  options.beforeSend = function(xhr) {
+    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
+  };
+
+  $.ajax(options).done(function(data) {
+    deferred.resolve(data);
+  }).fail(function(jqXHR, textStatus, errorThrown) {
+    var err = '[doAjax] ERROR[' + jqXHR.status + '] textStatus[' + textStatus + '] errorThrown[' + errorThrown + ']';
+    console.log(err);
+    deferred.reject(err);
+  });
+
+
+  return deferred.promise();
      };
 
-var users;
 
+
+var socket = (function() {
+  var sock;
+  var events = [];
+  return {
+    connect: function(token) {
+      if (!sock) {
+        sock = io.connect(':9001/', {
+          query: 'token=' + token
+        });
+        sock.on('connect', function() {
+          console.log('authenticated');
+          events.forEach(function(fn) {
+            fn.call(sock);
+          });
+        }).on('disconnect', function() {
+          console.log('disconnected');
+        });
+      } else {
+        sock.connect();
+      }
+    },
+    disconnect: function() {
+      sock.disconnect();
+    },
+    id: function() {
+      if (sock) {
+        return sock.io.engine.id;
+      }
+    },
+    addEvent: function(fn) {
+      events.push(fn);
+    }
+  };
+}());
+
+
+
+var getProfile = (function() {
+  var profile = null;
+
+  return function() {
+    var deferred = $.Deferred();
+    console.log("getProfile3");
+    if (profile) {
+      console.log("getProfile2");
+      return deferred.resolve(profile);
+    } else {
+
+  console.log("getProfile");
+      doAjax({url: '/photo/profile'}).done(function(user) {
+        console.log("getProfile4");
+        profile = user;
+        deferred.resolve(profile);
+      }).fail(function(jqXHR, textStatus, errorThrown) {
+        var err = '[doAjax] ERROR[' + jqXHR.status + '] textStatus[' + textStatus + '] errorThrown[' + errorThrown + ']';
+        console.log(err);
+        deferred.reject(err);
+      });
+    }
+    return deferred.promise();
+  };
+}());
+
+var users;
 Polymer('login-card', {
         ready: function() {
         this.a="";
@@ -247,7 +364,7 @@ Polymer('login-card', {
     },
     created: function() {
      if (!users) {
-       doAjax({}, function(data) {
+       doAjax({url:'/user'}, function(data) {
          users = data;
          this.users = users;
        }.bind(this));
@@ -259,7 +376,7 @@ Polymer('login-card', {
       password:password,
       email:email
     }
-    doAjax({type: 'POST', url:'/', data:JSON.stringify(data)}, function(result){
+    doAjax({type: 'POST', url:'/user/', data:JSON.stringify(data)}, function(result){
       this.users.push(result);
     }.bind(this));
   },
@@ -287,7 +404,23 @@ Polymer('login-card', {
         this.scores.splice(i, 1);
       }
     }.bind(this));
-  }
+  },
+    fireLogin: function() {
+      this.fire('login');
+    },
+    fireLogout: function() {
+      this.fire('logout');
+    },
+    loggedChanged: function() {
+      if (this.logged) {
+        getProfile().done(function(user) {
+          this.photoUrl = user._json.picture;
+          console.log(user._json.picture);
+        }.bind(this)).fail(function() {
+          this.photoUrl = '';
+        }.bind(this));
+      }
+    }
 
   });
 </script>

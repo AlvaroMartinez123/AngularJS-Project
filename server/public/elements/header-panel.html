@@ -7,6 +7,7 @@
 <link rel="import" href="ranking-card.html">
 <link rel="import" href="login-card.html">
 <link rel="import" href="profile-card.html">
+<link rel="import" href="app-login.html">
 
   
   <link rel="import" href="../bower_components/polymer/polymer.html">
@@ -131,7 +132,8 @@
     </style>
 
 <flatiron-director route="{{route}}" autoHash></flatiron-director>
-<core-header-panel mode="standard" id="core_header_panel">
+<app-login id="login"></app-login>
+<core-header-panel mode="standard" id="core_header_panel" logged="{{login.logged}}" on-login="{{handleLogin}}" on-logout="{{handleLogout}}">
   <core-toolbar id="core_toolbar">
     <core-icon-button on-tap={{coreSelected}} icon="menu" id="core_icon_button"></core-icon-button>
     <div id="div">RapidShot</div>
@@ -142,12 +144,13 @@
         </paper-item>
       </template>
     </core-menu>
+  
 
   </core-toolbar>
     <core-animated-pages valueattr="hash" selected="{{route}}" transitions="slide-from-right">
 
       <section id="section1" hash="home" center-justified horizontal layout center>
-        <login-card id="core_card" layout vertical hidden?="{{showLogin}}" ></login-card>
+        <login-card id="core_card" layout vertical logged="{{login.logged}}" hidden?="{{showLogin}}"></login-card>
       </section>
 
       <section id="section2" hash="ranking" center-justified horizontal layout center>
@@ -178,17 +181,21 @@
         {name: 'Profile', hash: 'profile', icon: 'account-circle'}
       ];
         this.route = this.route || "home";
+        this.login = this.$.login;
     },
-    /*coreBackground: function(){
-      this.style.backgroundImage="url('http://todops4.com/wp-content/uploads/2014/09/417.jpg')";
-    },*/
       showLogin: false,
       coreSelected: function() {
         this.showLogin = !this.showLogin;
       },
       selected: function() {
         this.$.ranking_card.ready();
-      }     
+      },
+      handleLogin: function(event, detail) {
+        this.$.login.login();
+      },
+      handleLogout: function(event, detail) {
+        this.$.login.logout();
+      }
 });
   </script>
 </polymer-element>

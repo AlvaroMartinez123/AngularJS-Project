@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var fs = require('fs');
+var passport = require('passport');
 
 var app = express();
 
@@ -14,6 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(passport.initialize());
 
 var basePath = path.join(__dirname, '/routes/');
 fs.readdirSync(basePath).forEach(function(filename) {
@@ -31,7 +33,7 @@ app.all('/*', function(req, res, next) {
 
 app.use(function(err, req, res, next){
   debug(err.stack);
-  res.status(500).send('Something broken!');
+  res.status(500).send('Something broken!', err);
 });
 
 var port =  process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 9001; 
