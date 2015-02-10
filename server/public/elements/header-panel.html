@@ -15,9 +15,12 @@
   <link rel="import" href="../bower_components/core-animated-pages/transitions/slide-from-right.html">
   <link rel="import" href="../bower_components/paper-item/paper-item.html">
   <link rel="import" href="../bower_components/core-menu/core-menu.html">
+  <link rel="import" href="../bower_components/core-item/core-item.html">
   <link rel="import" href="../lib/flatiron-director.html"> 
 
-<polymer-element name="header-panel" attributes="showLogin">
+  <script src="../util/util.js"></script>
+
+<polymer-element name="header-panel" attributes="logged">
 
   <template>
     <style>    
@@ -128,14 +131,30 @@
       #core_icon_button:active {
         background-color: black;
       }
+      #signout {
+       color: white;
+       background:#424242 ;
+       border-radius: 5px;
+      vertical-align: middle;
+      padding-left: 15px;
+      padding-right: 35px;
+     }
+
+     #signout::shadow core-icon div {
+       border-radius: 50%;
+     }
+     #signout:hover {
+      background: #6E6E6E;
+      cursor: pointer;
+    }
 
     </style>
 
 <flatiron-director route="{{route}}" autoHash></flatiron-director>
 <app-login id="login"></app-login>
-<core-header-panel mode="standard" id="core_header_panel" logged="{{login.logged}}" on-login="{{handleLogin}}" on-logout="{{handleLogout}}">
+<core-header-panel mode="standard" id="core_header_panel"  on-login="{{handleLogin}}" on-logout="{{handleLogout}}">
   <core-toolbar id="core_toolbar">
-    <core-icon-button on-tap={{coreSelected}} icon="menu" id="core_icon_button"></core-icon-button>
+    
     <div id="div">RapidShot</div>
     <core-menu horizontal layout valueattr="hash" selected="{{route}}">
       <template repeat="{{page in pages}}">
@@ -144,13 +163,14 @@
         </paper-item>
       </template>
     </core-menu>
-  
+  <core-item id="signout" src="{{photoUrl}}" label="Sign Out" on-click="{{handleLogout}}"  hidden?="{{!login.logged}}"></core-item>
 
   </core-toolbar>
     <core-animated-pages valueattr="hash" selected="{{route}}" transitions="slide-from-right">
 
       <section id="section1" hash="home" center-justified horizontal layout center>
-        <login-card id="core_card" layout vertical logged="{{login.logged}}" hidden?="{{showLogin}}"></login-card>
+        <login-card id="core_card" layout vertical logged="{{login.logged}}"></login-card>
+
       </section>
 
       <section id="section2" hash="ranking" center-justified horizontal layout center>
@@ -171,17 +191,33 @@
 
   <script>
      
+    var showProfile = [
+            {name: 'Home', hash: 'home', icon: 'home'},
+            {name: 'Ranking', hash: 'ranking', icon: 'account-child'},
+            {name: 'Media', hash: 'media', icon: 'shop'},
+            {name: 'Profile', hash: 'profile', icon: 'account-circle'}
+          ];
+    var hideProfile =  [
+            {name: 'Home', hash: 'home', icon: 'home'},
+            {name: 'Ranking', hash: 'ranking', icon: 'account-child'},
+            {name: 'Media', hash: 'media', icon: 'shop'}
+          ];
 
     Polymer({
+
       ready: function(){
-       this.pages = [
-        {name: 'Home', hash: 'home', icon: 'home'},
-        {name: 'Ranking', hash: 'ranking', icon: 'account-child'},
-        {name: 'Media', hash: 'media', icon: 'shop'},
-        {name: 'Profile', hash: 'profile', icon: 'account-circle'}
-      ];
-        this.route = this.route || "home";
-        this.login = this.$.login;
+       this.login = this.$.login;
+       this.logged = this.$.login.logged;
+       
+       if (this.logged){
+          this.pages = showProfile;
+       }else{
+          this.pages = hideProfile;
+          if(this.route == "profile"){
+            this.route = "home";
+          };
+       }
+        this.route = this.route || "home";       
     },
       showLogin: false,
       coreSelected: function() {
@@ -191,11 +227,23 @@
         this.$.ranking_card.ready();
       },
       handleLogin: function(event, detail) {
-        this.$.login.login();
+        this.$.login.login(function(logged){
+          this.logged = logged;
+        }.bind(this));
+        this.pages = showProfile;
       },
       handleLogout: function(event, detail) {
         this.$.login.logout();
+      },
+      loggedChanged: function() {
+      if (this.logged) {
+        getProfile().done(function(user) {
+          this.photoUrl = user._json.picture;
+        }.bind(this)).fail(function() {
+          this.photoUrl = '';
+        }.bind(this));
       }
+    }
 });
   </script>
 </polymer-element>

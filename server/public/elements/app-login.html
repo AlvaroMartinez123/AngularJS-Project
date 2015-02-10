@@ -26,7 +26,7 @@
         }, 100);
         function checkResponse() {
           var hash = window.location.hash;
-          window.location.hash = '';
+          window.location.hash = 'home';
           var token = /[#?;,]token=([^;,]+)/.exec(hash);
           var error = /[#?;,]error=([^;,]+)/.exec(hash);
           if (error || !token) {
@@ -52,16 +52,18 @@
             socket.connect(localStorage.token);
           }
         },
-        login: function() {
+        login: function(callback) {
           authorize().done(function(data) {
             localStorage.token = data.token;
             this.logged = true;
             socket.connect(data.token);
             console.log('logged');
+            callback(this.logged);
           }.bind(this)).fail(function() {
             delete localStorage.token;
             this.logged = false;
           }.bind(this));
+
         },
         logout: function() {
           delete localStorage.token;
@@ -69,7 +71,7 @@
           if (socket) {
             socket.disconnect();
           }
-          console.log(this.logged);
+          
           document.location.reload();
         }
       });

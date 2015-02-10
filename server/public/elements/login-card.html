@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../bower_components/core-item/core-item.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <polymer-element name="login-card" attributes="showRegistered, logged">
 <template>
@@ -137,46 +138,61 @@ paper-input {
 #section3 {
   height: auto;
   position: relative;
+  text-align: center;
 }
 #p3{
   border-bottom: 1px solid white;
   padding-bottom: 10px;
 }
 
-     #signout {
-       color: white;
-       background-color: rgba(170,0,0,0.40);
-       border-radius: 5px;
-     }
-
-     #signout::shadow core-icon div {
-       border-radius: 50%;
-     }
+     
      #signin {
-      display: inline-block;
-      background: #cc3732;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 20px;
+      background: #dd4b39;
       color: white;
-      width: 175px;
+      width: 165px;
       border-radius: 5px;
+      padding-bottom: 10px;
+      padding-top: 10px;
     }
     #signin:hover {
       background: #e74b37;
-      cursor: hand;
+      cursor: pointer;
     }
     #signin.label {
       font-weight: bold;
     }
     
     #signin.buttonText {
-      display: inline-block;
-      vertical-align: middle;
-      padding-left: 40px;
-      padding-right: 40px;
+      padding-left: 35px;
+      padding-right: 35px;
+      font-size: 14px;
+
+
     }
+     #play{
+        width:200px;
+        position: relative;
+        border:1px solid rgba(0,0,0,0.4);
+        text-shadow:0 -1px 0 rgba(0,0,0,0.4);
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,0.3),
+          inset 0 10px 10px rgba(255,255,255,0.1);
+        border-radius:0.3em;
+        background:#0184ff;
+        color:white;
+        font-weight:bold;
+        cursor:pointer;
+        font-size:25px;
+      }
 </style>
 <app-login id="login"></app-login>
+
 <div center-justified horizontal layout center>
-<section id="sectionp" >
+<paper-button id="play" layout vertical label="Play" hidden?="{{!logged}}"></paper-button>
+<section id="sectionp" hidden?="{{logged}}">
     <paper-tabs noink nobar hidden?="{{showRegistered}}" selected="0" selectedindex="0" id="paper_tabs" horizontal center layout>
       <paper-tab id="paper_tab" inline flex center-center horizontal layout active>REGISTER</paper-tab>
       <paper-tab id="paper_tab1" inline flex center-center horizontal layout>LOGIN</paper-tab>
@@ -200,10 +216,9 @@ paper-input {
           <section id="section3"  layout horizontal center center-justified active>
             <core-card id="core_card" layout vertical hidden?="{{showRegistered}}">
               <div id="container">
-                <paper-item id="signin" label="Sign In" on-click="{{fireLogin}}" hidden?="{{logged}}" icon="account-circle"></paper-item>
-                <core-item id="signout" src="{{photoUrl}}" label="Sign Out" on-click="{{fireLogout}}"  hidden?="{{!logged}}"></core-item>
+                <paper-item id="signin" label="Sign in with Google" on-click="{{fireLogin}}" hidden?="{{logged}}"  layout vertical></paper-item>
+              
                 <div id="form">
-                  <p id="p1">Login</p>
                   <paper-input label="Username"  id="username_login" floatinglabel  layout vertical error="Valid username required" required></paper-input>
                   <paper-input  label="Password" type="password" floatinglabel   id="password_login" layout vertical error="Valid password required" required></paper-input>
                   <paper-button label="Login" id="paper_button2"></paper-button>
@@ -215,7 +230,11 @@ paper-input {
       </core-animated-pages>
     </section>
 </section>
+
 </div>
+
+
+
   <core-card id="registered_card" layout vertical hidden?="{{!showRegistered}}">
     <div id="register" start-justified horizontal layout start>
       <p id="p">REGISTERED</p>
@@ -229,101 +248,7 @@ paper-input {
 </template>
 
 <script>
-function doAjax(options, success, error) {
-  var deferred = $.Deferred();
-  var self = this;
-  options.type = options.type || 'GET';
-  options.url = options.url || '';
-  if (socket.io.engine.id) {
-    options.url += '?socketId=' + socket.io.engine.id;
-  }
-  options.dataType = options.dataType || 'json';
-  options.contentType = options.contentType || 'application/json; charset=UTF-8';
-  options.success = success;
-  options.error = (typeof error === 'function');
-  options.cache = false;
-  options.async = true;
 
-  options.beforeSend = function(xhr) {
-    xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.token);
-  };
-
-  $.ajax(options).done(function(data) {
-    deferred.resolve(data);
-  }).fail(function(jqXHR, textStatus, errorThrown) {
-    var err = '[doAjax] ERROR[' + jqXHR.status + '] textStatus[' + textStatus + '] errorThrown[' + errorThrown + ']';
-    console.log(err);
-    deferred.reject(err);
-  });
-
-
-  return deferred.promise();
-     };
-
-
-
-var socket = (function() {
-  var sock;
-  var events = [];
-  return {
-    connect: function(token) {
-      if (!sock) {
-        sock = io.connect(':9001/', {
-          query: 'token=' + token
-        });
-        sock.on('connect', function() {
-          console.log('authenticated');
-          events.forEach(function(fn) {
-            fn.call(sock);
-          });
-        }).on('disconnect', function() {
-          console.log('disconnected');
-        });
-      } else {
-        sock.connect();
-      }
-    },
-    disconnect: function() {
-      sock.disconnect();
-    },
-    id: function() {
-      if (sock) {
-        return sock.io.engine.id;
-      }
-    },
-    addEvent: function(fn) {
-      events.push(fn);
-    }
-  };
-}());
-
-
-
-var getProfile = (function() {
-  var profile = null;
-
-  return function() {
-    var deferred = $.Deferred();
-
-    if (profile) {
-
-      return deferred.resolve(profile);
-    } else {
-
-
-      doAjax({url: '/photo/profile'}).done(function(user) {
-
-        profile = user;
-        deferred.resolve(profile);
-      }).fail(function(jqXHR, textStatus, errorThrown) {
-        var err = '[doAjax] ERROR[' + jqXHR.status + '] textStatus[' + textStatus + '] errorThrown[' + errorThrown + ']';
-        console.log(err);
-        deferred.reject(err);
-      });
-    }
-    return deferred.promise();
-  };
-}());
 
 var users;
 Polymer('login-card', {
@@ -410,16 +335,8 @@ Polymer('login-card', {
     },
     fireLogout: function() {
       this.fire('logout');
-    },
-    loggedChanged: function() {
-      if (this.logged) {
-        getProfile().done(function(user) {
-          this.photoUrl = user._json.picture;
-        }.bind(this)).fail(function() {
-          this.photoUrl = '';
-        }.bind(this));
-      }
     }
+    
 
   });
 </script>
