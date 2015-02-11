@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="app-login.html">
 
-<polymer-element name="profile-card" attributes="showChanged">
+<polymer-element name="profile-card" attributes="showChanged, logged">
 
 <template>
     <style>    
@@ -15,6 +16,7 @@
   color:white;
   background:#333;
   }
+  
 #change p {
   font-size: 100%;
   margin-left: 5px;
@@ -107,10 +109,11 @@ paper-input {
 
   }
     </style>
-    <login-card hidden id="asd"></login-card>
+    <app-login id="login"></app-login>
+    <login-card hidden id="login_card"></login-card>
     <core-card id="core_card" layout vertical hidden?="{{showChanged}}">
    <div id="change" start-justified horizontal layout start>
-      <p id="p">Change name / Delete user</p>
+      <p id="p">{{name}}</p>
     </div>
     <div id="container">
       <div id="form">
@@ -129,7 +132,7 @@ paper-input {
     </core-card>
     <core-card id="changed_card" layout vertical hidden?="{{!showChanged}}">
     <div id="register" start-justified horizontal layout start>
-      <p id="p">Saved changes</p>
+      <p id="p2">Saved changes</p>
     </div>
     <div id="container">
     <p>Your changes were succesfully saved</p>
@@ -139,49 +142,50 @@ paper-input {
 
 </template>
   <script>
-  function getUser(user){
-    var newname = this.$.new_username.value
-    var login =this.$.asd;
 
-    login.setUser(user, newname);
-    this.showChanged = !this.showChanged;
-
-    this.$.username.value = "";
-    this.$.password.value = "";
-    this.$.email.value = "";
-    this.$.new_username.value = "";
-
-  }
-  function delUser(user){
-    var login =this.$.asd;
-    console.log(user);
-    login.deleteUser(user);
-    this.showChanged = !this.showChanged;
-
-    this.$.username.value = "";
-    this.$.password.value = "";
-    this.$.email.value = "";
-    this.$.new_username.value = "";
-
-  }
     Polymer({
+      ready: function(){
+        
+
+        console.log(this.logged);
+        if (this.logged) {
+          getProfile().done(function(user) {
+            this.name = user._json.name;
+            console.log(this.name);
+          }.bind(this));
+        }
+      },
       handleName: function(){
         var email = this.$.email.value;
         var user = "/user/email/" + email;
         var that = this;
-        console.log(user);
+        var newname = this.$.new_username.value
+        var login =this.$.login_card;
+ 
         $.getJSON(user,function(result){
-          getUser.bind(that)(result);
+
+          login.setUser(result, newname);
         });
+        this.showChanged = !this.showChanged;
+        this.$.username.value = "";
+        this.$.password.value = "";
+        this.$.email.value = "";
+        this.$.new_username.value = "";
       },
       handleDelete: function() {
         var email = this.$.email.value;
         var user = "/user/email/" + email;
         var that = this;
-        console.log(user);
+        var login =this.$.login_card;
+
         $.getJSON(user,function(result){
-          delUser.bind(that)(result);
+          login.deleteUser(user);
         });
+        this.showChanged = !this.showChanged;
+        this.$.username.value = "";
+        this.$.password.value = "";
+        this.$.email.value = "";
+        this.$.new_username.value = "";
       },
       handleReturn: function(){
         this.showChanged = !this.showChanged;

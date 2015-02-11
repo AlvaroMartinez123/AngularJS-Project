@@ -158,7 +158,7 @@
     <div id="div">RapidShot</div>
     <core-menu horizontal layout valueattr="hash" selected="{{route}}">
       <template repeat="{{page in pages}}">
-        <paper-item on-tap="{{selected}}" id="paper_items" label="{{page.name}}" icon="{{page.icon}}"  hash="{{page.hash}}">
+        <paper-item  id="paper_items" label="{{page.name}}" icon="{{page.icon}}"  hash="{{page.hash}}">
           <a href="#{{page.hash}}"></a>
         </paper-item>
       </template>
@@ -170,22 +170,22 @@
 
       <section id="section1" hash="home" center-justified horizontal layout center>
         <login-card id="core_card" layout vertical logged="{{login.logged}}"></login-card>
-
       </section>
 
       <section id="section2" hash="ranking" center-justified horizontal layout center>
-      <ranking-card id="ranking_card" layout vertical></ranking-card>
+        <ranking-card id="ranking_card" layout vertical></ranking-card>
       </section>
 
       <section id="section3" hash="media">
       </section>
 
-      <section id="section4" hash="profile" center-justified horizontal layout center>
-      <profile-card layout vertical></profile-card>
+      <section id="section4" hash="profile"  center-justified horizontal layout center>
+        <profile-card id="profile_card" logged="{{login.logged}}" hidden?="{{!login.logged}}"  layout vertical></profile-card>
       </section>
 
 
    </core-animated-pages>
+
 </core-header-panel>
 </template>
 
@@ -223,14 +223,17 @@
       coreSelected: function() {
         this.showLogin = !this.showLogin;
       },
-      selected: function() {
-        this.$.ranking_card.ready();
-      },
       handleLogin: function(event, detail) {
         this.$.login.login(function(logged){
           this.logged = logged;
+          this.$.profile_card.ready();
+          this.$.profile_card.logged = logged;
+          getProfile().done(function(user) {
+            showMsg("Welcome " + user._json.name)
+          }.bind(this))
         }.bind(this));
         this.pages = showProfile;
+
       },
       handleLogout: function(event, detail) {
         this.$.login.logout();

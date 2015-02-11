@@ -87,18 +87,6 @@ passport.use(new GoogleStrategy({
 }, function(accessToken, refreshToken, profile, done) {
 	debug('passport use');
 	debug('New accessToken: ' + accessToken + ', refreshToken: ' + refreshToken + ', user: ' + profile.id);
-	//console.log(profile._json.picture);
-	/*
-	var user = {
-		google_id : profile._json.id,
-		name : profile._json.name,
-		picture : profile._json.picture
-	}
-	callback = function(){
-
-	};
-
-	daoUser.create(user, callback)*/
 	done(null, {accessToken: accessToken, refreshToken: refreshToken, profile: profile});
 }
 ));

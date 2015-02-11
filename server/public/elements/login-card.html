@@ -3,7 +3,6 @@
 <link rel="import" href="../bower_components/paper-input/paper-input-decorator.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
-<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../bower_components/core-item/core-item.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
@@ -244,7 +243,7 @@ paper-input {
     <paper-button label="Return" on-tap={{handleReturn}} id="return"></paper-button>
     </div>
   </core-card>
-  <paper-toast id="fill" text="Fill all the fields"></paper-toast>
+  
 </template>
 
 <script>
@@ -252,7 +251,7 @@ paper-input {
 
 var users;
 Polymer('login-card', {
-        ready: function() {
+  ready: function() {
         this.a="";
         this.b="";
       },
@@ -281,7 +280,7 @@ Polymer('login-card', {
       this.$.password.value = "";
       this.$.email.value = "";
     }else{
-      this.$.fill.show();
+      showMsg("Fill all the fields");
     }
   },
   handleReturn: function(){
@@ -312,17 +311,14 @@ Polymer('login-card', {
       email:user.email,
       score:user.score
     }
-
-    console.log(user._id);
-
-    var url = '/' + user._id;
+    var url = '/user/' + user._id;
     doAjax({type: 'PUT', url:url, data:JSON.stringify(data)}, function(result){
       user.name = name;
 
     }.bind(this));
   },
   deleteUser: function(user) {
-    var url = '/' + user._id;
+    var url = '/user/' + user._id;
     doAjax({type: 'DELETE', url:url}, function(result){
       var i = this.users.indexOf(user);
       if(i >= 0){

@@ -29,7 +29,11 @@ function doAjax(options, success, error) {
   return deferred.promise();
      };
 
-
+function showMsg(msg) {
+  var toast = document.querySelector('#toast');
+  toast.text = msg;
+  toast.show();
+}
 
 var socket = (function() {
   var sock;
