@@ -27,9 +27,15 @@
         }
         tr{
           border-bottom: 1px solid grey;
+          transition-property: background;
+          transition-duration: .2s;
+          transition-timing-function: linear;
         }
         td{
           padding: 10px;
+        }
+        tr:not(:first-child):hover{
+          background-color: #525252;
         }
         th{
           padding: 10px;
@@ -66,28 +72,6 @@
 
 </template>
   <script>
-/*
-        socket.on('userDeleted', function(userId) {
-          for (var i = 0; i < users.length; i++) {
-            if (userId === users[i]._id) {
-              users.splice(i, 1);
-              console.log("user"+userId+"deleted");
-            }
-          }
-        });
-
-        socket.on('userSetted', function(user, newname) {
-          for (var i = 0; i < users.length; i++) {
-            console.log("userSetted");
-            if (user._id === users[i]._id) {
-              users[i].name = newname;
-            }
-            
-          }
-        });
-
-*/
-
   (function() {
     var refresh = function() {
       var user = "/user/scored";

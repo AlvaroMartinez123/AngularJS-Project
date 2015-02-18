@@ -47,8 +47,9 @@ paper-input {
 }
 
 #paper_button2{
-  width:200px;
+  width:90%;
   margin-top: 20px;
+  margin-bottom: 20px;
   position: relative;
   border:1px solid rgba(0,0,0,0.4);
   text-shadow:0 -1px 0 rgba(0,0,0,0.4);
@@ -61,7 +62,12 @@ paper-input {
   font-weight:bold;
   cursor:pointer;
   font-size:13px;
-  margin-bottom: 20px;
+  transition-property: background;
+  transition-duration: .2s;
+  transition-timing-function: linear;
+}
+#paper_button2:hover{
+  background: #2998FF;
 }
 #changed_card {
   position: relative;
@@ -90,6 +96,12 @@ paper-input {
   font-weight:bold;
   cursor:pointer;
   font-size:13px;
+  transition-property: background;
+  transition-duration: .2s;
+  transition-timing-function: linear;
+}
+#return:hover{
+  background: #2998FF;
 }
 #register {
   background:#1C1C1C;

@@ -71,6 +71,12 @@ paper-input {
   font-weight:bold;
   cursor:pointer;
   font-size:13px;
+  transition-property: background;
+  transition-duration: .2s;
+  transition-timing-function: linear;
+}
+#paper_button2:hover{
+  background: #2998FF;
 }
  #registered_card {
   position: absolute;
@@ -99,6 +105,12 @@ paper-input {
   font-weight:bold;
   cursor:pointer;
   font-size:13px;
+  transition-property: background;
+  transition-duration: .2s;
+  transition-timing-function: linear;
+}
+#return:hover{
+  background: #2998FF;
 }
 #sectionp {
   width: 420px;
@@ -185,6 +197,21 @@ paper-input {
         font-weight:bold;
         cursor:pointer;
         font-size:25px;
+        transition-property: background;
+        transition-duration: .2s;
+        transition-timing-function: linear;
+      }
+      #play:hover{
+        background: #2998FF;
+      }
+      paper-tab{
+        cursor: pointer;
+        transition-property: background;
+        transition-duration: .2s;
+        transition-timing-function: linear;
+      }
+      paper-tab:hover{
+        background: #2E2E2E;
       }
 </style>
 <app-login id="login"></app-login>
@@ -251,10 +278,6 @@ paper-input {
 
 var users;
 Polymer('login-card', {
-  ready: function() {
-        this.a="";
-        this.b="";
-      },
   showRegistered : false,
   validate: function(){
     var name = this.$.username.value;

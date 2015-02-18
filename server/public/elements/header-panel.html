@@ -87,9 +87,7 @@
 
                 
       }
-      #paper_items:hover{
-        background-color: #333;
-      }
+
         @media screen and (max-width: 600px) {
           #core_card{
           opacity: .9;
@@ -123,7 +121,14 @@
 
         #paper_items{
           min-width: 25px;
+          transition-property: background;
+          transition-duration: .2s;
+          transition-timing-function: linear;
+          border-radius: 2px;
         }
+        #paper_items:hover{
+        background-color: #525252;
+      }
         
       #core_icon_button:hover {
         background-color: #333;
@@ -138,6 +143,9 @@
       vertical-align: middle;
       padding-left: 15px;
       padding-right: 35px;
+      transition-property: background;
+      transition-duration: .2s;
+      transition-timing-function: linear;
      }
 
      #signout::shadow core-icon div {
@@ -163,7 +171,7 @@
         </paper-item>
       </template>
     </core-menu>
-  <core-item id="signout" src="{{photoUrl}}" label="Sign Out" on-click="{{handleLogout}}"  hidden?="{{!login.logged}}"></core-item>
+  <core-item id="signout" src="{{photoUrl}}" label="Sign Out" on-click="{{handleLogout}}" horizontal end-justified layout hidden?="{{!login.logged}}"></core-item>
 
   </core-toolbar>
     <core-animated-pages valueattr="hash" selected="{{route}}" transitions="slide-from-right">
