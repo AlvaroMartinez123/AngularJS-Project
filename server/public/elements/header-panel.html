@@ -226,8 +226,8 @@
       handleLogin: function(event, detail) {
         this.$.login.login(function(logged){
           this.logged = logged;
+          this.$.profile_card.getInfo();
           this.$.profile_card.ready();
-          this.$.profile_card.logged = logged;
           getProfile().done(function(user) {
             showMsg("Welcome " + user._json.name)
           }.bind(this))

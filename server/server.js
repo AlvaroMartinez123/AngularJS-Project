@@ -15,6 +15,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(err, req, res, next){
+  debug(err);
+  res.status(500).json({'error': err});
+});
+
+
 app.use(passport.initialize());
 
 var basePath = path.join(__dirname, '/routes/');
@@ -31,10 +37,6 @@ app.all('/*', function(req, res, next) {
 	next();
 });
 
-app.use(function(err, req, res, next){
-  debug(err.stack);
-  res.status(500).send('Something broken!', err);
-});
 
 var port =  process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 9001; 
 var ip =  process.env.OPENSHIFT_NODEJS_IP || process.env.IP || '0.0.0.0'; 

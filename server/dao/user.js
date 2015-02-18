@@ -3,14 +3,24 @@ var toObjectID = require('../util/mongodb').toObjectID;
 var col = db.bind('user');
 
 function create(user, callback) {
-	this.insert(user, callback);
+	getByEmail(user.email, function(err, data) {
+		if (err) {
+			return callback(err);
+		}
+		if (data) {
+			return callback(user.email + ' email already exists');	
+		}
+		this.insert(user, callback);
+	}.bind(this));
 }
-
+function getByGoogleId(googleId, callback) {
+	this.findOne({googleId: googleId}, callback);
+}
 function getById(userId, callback) {
 	this.findById(userId, callback);
 }
 function getByEmail(email, callback) {
-	this.findOne({email: email}, callback);
+	col.findOne({email: email}, callback);
 }
 function getAll(callback) {
 	this.find().sort({score: -1}, function(err, cursor) {
@@ -38,7 +48,16 @@ function delAll(callback) {
 function delUser(userId, callback) {
 	this.removeById(userId, callback);
 }
-
+function updateGoogleUser(googleId, update, callback) {
+	var query = {
+		googleId: googleId
+	};
+	
+	var sort = [
+		['googleId', 1]
+	];
+	col.findAndModify(query, sort, update, {new: true}, callback);
+}
 function updateUser(userId, update, callback) {
 	var query = {
 		_id: toObjectID(userId)
@@ -54,12 +73,14 @@ function updateUser(userId, update, callback) {
 col.bind({
 	create: create,
 	getById: getById,
+	getByGoogleId: getByGoogleId,
 	getAll: getAll,
 	getByEmail: getByEmail,
 	getAllScored: getAllScored,
 	delAll: delAll,
 	delUser: delUser,
-	updateUser: updateUser
+	updateUser: updateUser,
+	updateGoogleUser: updateGoogleUser
 });
 
 module.exports = col;

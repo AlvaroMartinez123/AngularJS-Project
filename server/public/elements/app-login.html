@@ -55,6 +55,7 @@
         login: function(callback) {
           authorize().done(function(data) {
             localStorage.token = data.token;
+            this.registerUser();
             this.logged = true;
             socket.connect(data.token);
             callback(this.logged);
@@ -72,6 +73,22 @@
           }
           
           document.location.reload();
+        },
+        registerUser: function(){
+          getProfile().done(function(user) {
+              var googleUser = {
+                googleId: user._json.id,
+                name: user._json.name,
+                email: user._json.email
+              }
+
+              doAjax({type: 'POST', url:'/user/google', data:JSON.stringify(googleUser)}, 
+                function(result){
+                  console.log("registered");
+              }, function(err){
+                  console.log("error doAjax: " + err);
+              });  
+          }.bind(this));
         }
       });
     }());

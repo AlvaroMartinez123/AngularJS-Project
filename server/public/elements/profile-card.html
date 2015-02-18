@@ -43,10 +43,11 @@ paper-input {
   margin-left: auto;
   margin-right: auto;
   width: 200px;
+  color:white;
 }
 
 #paper_button2{
-  width:90%;
+  width:200px;
   margin-top: 20px;
   position: relative;
   border:1px solid rgba(0,0,0,0.4);
@@ -108,22 +109,26 @@ paper-input {
     }
 
   }
+#user_img{
+  width:100px;
+  height:100px;
+  margin-top: 10px;
+  border-radius: 50%;
+}
     </style>
     <app-login id="login"></app-login>
     <login-card hidden id="login_card"></login-card>
     <core-card id="core_card" layout vertical hidden?="{{showChanged}}">
    <div id="change" start-justified horizontal layout start>
-      <p id="p">{{name}}</p>
+      <p id="p">Profile information</p>
     </div>
     <div id="container">
       <div id="form">
-        <p id="p1">Enter your information</p>
-        <paper-input label="Username"  id="username" floatinglabel willvalidate layout vertical ></paper-input>
-        <paper-input  label="Password" type="password" floatinglabel willvalidate  id="password" layout vertical ></paper-input>
-        <paper-input label="Email" id="email" floatinglabel willvalidate layout vertical ></paper-input>
+        <img id="user_img" src="{{photoUrl}}" >
+        <paper-input label="{{name}}"  id="username" floatinglabel willvalidate layout vertical ></paper-input>
+        <p>{{email}}</p>
+        <p>Best score: {{score}}</p>
         <paper-button label="Delete user" on-tap={{handleDelete}} id="paper_button2"></paper-button>
-        <p id="p1">New name</p>
-        <paper-input label="New username"  id="new_username" floatinglabel willvalidate layout vertical ></paper-input>
         <paper-button label="Change name" on-tap={{handleName}} id="paper_button2"></paper-button>
         
       </div>
@@ -145,21 +150,15 @@ paper-input {
 
     Polymer({
       ready: function(){
-        
-
-        console.log(this.logged);
-        if (this.logged) {
-          getProfile().done(function(user) {
-            this.name = user._json.name;
-            console.log(this.name);
-          }.bind(this));
+        if (this.$.login.logged) {
+          this.getInfo();
         }
       },
       handleName: function(){
-        var email = this.$.email.value;
+        var email = this.email;
         var user = "/user/email/" + email;
         var that = this;
-        var newname = this.$.new_username.value
+        var newname = this.$.username.value
         var login =this.$.login_card;
  
         $.getJSON(user,function(result){
@@ -168,12 +167,9 @@ paper-input {
         });
         this.showChanged = !this.showChanged;
         this.$.username.value = "";
-        this.$.password.value = "";
-        this.$.email.value = "";
-        this.$.new_username.value = "";
       },
       handleDelete: function() {
-        var email = this.$.email.value;
+        var email = this.email;
         var user = "/user/email/" + email;
         var that = this;
         var login =this.$.login_card;
@@ -182,13 +178,21 @@ paper-input {
           login.deleteUser(user);
         });
         this.showChanged = !this.showChanged;
-        this.$.username.value = "";
-        this.$.password.value = "";
-        this.$.email.value = "";
-        this.$.new_username.value = "";
       },
       handleReturn: function(){
         this.showChanged = !this.showChanged;
+      },
+      getInfo: function(){
+        getProfile().done(function(user) {
+          this.name = user._json.name;
+          this.photoUrl = user._json.picture;
+          this.email = user._json.email;
+          var url = "/user/email/" + this.email;
+          doAjax({url: url}, function(data) {
+           this.score = data.score;
+           this.name = data.name;
+         }.bind(this));
+        }.bind(this));
       }
     });
 
