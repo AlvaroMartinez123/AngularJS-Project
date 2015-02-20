@@ -340,12 +340,24 @@ Polymer('login-card', {
 
     }.bind(this));
   },
+  setGoogleUser: function(googleUser, newName){
+    var data = {
+      name:newName,
+      email:googleUser.email,
+      score:googleUser.score
+    }
+    var url = '/user/google/' + googleUser.googleId;
+    doAjax({type: 'PUT', url:url, data:JSON.stringify(data)}, function(result){
+      googleUser.name = newName;
+
+    }.bind(this));
+  },
   deleteUser: function(user) {
     var url = '/user/' + user._id;
     doAjax({type: 'DELETE', url:url}, function(result){
       var i = this.users.indexOf(user);
       if(i >= 0){
-        this.scores.splice(i, 1);
+        this.users.splice(i, 1);
       }
     }.bind(this));
   },

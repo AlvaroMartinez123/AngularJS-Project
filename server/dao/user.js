@@ -2,15 +2,16 @@ var db = require('../util/mongodb').db;
 var toObjectID = require('../util/mongodb').toObjectID;
 var col = db.bind('user');
 
-function create(user, callback) {
+function create(user, throwError, callback) {
 	getByEmail(user.email, function(err, data) {
 		if (err) {
 			return callback(err);
 		}
-		if (data) {
-			return callback(user.email + ' email already exists');	
+		if (!data) {
+			this.insert(user, callback);			
+		} else {
+			callback(throwError? user.email + ' email already exists': null);
 		}
-		this.insert(user, callback);
 	}.bind(this));
 }
 function getByGoogleId(googleId, callback) {

@@ -48,7 +48,7 @@ paper-input {
 
 #paper_button2{
   width:90%;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: 20px;
   position: relative;
   border:1px solid rgba(0,0,0,0.4);
@@ -140,8 +140,8 @@ paper-input {
         <paper-input label="{{name}}"  id="username" floatinglabel willvalidate layout vertical ></paper-input>
         <p>{{email}}</p>
         <p>Best score: {{score}}</p>
-        <paper-button label="Delete user" on-tap={{handleDelete}} id="paper_button2"></paper-button>
         <paper-button label="Change name" on-tap={{handleName}} id="paper_button2"></paper-button>
+        <paper-button label="Delete user" on-tap={{handleDelete}} id="paper_button2"></paper-button>
         
       </div>
 
@@ -174,11 +174,11 @@ paper-input {
         var login =this.$.login_card;
  
         $.getJSON(user,function(result){
-
           login.setUser(result, newname);
         });
         this.showChanged = !this.showChanged;
         this.$.username.value = "";
+        this.ready();
       },
       handleDelete: function() {
         var email = this.email;

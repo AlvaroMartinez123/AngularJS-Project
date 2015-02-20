@@ -9,7 +9,7 @@ function create(name, password, email, callback) {
 		score: Number(0)
 	};
 
-	daoUser.create(user, callback);
+	daoUser.create(user, true, callback);
 
 }
 
@@ -21,7 +21,7 @@ function createGoogleUser(googleId, name, email, callback) {
 		email: email,
 		score: Number(0)
 	};
-	daoUser.create(user, callback);
+	daoUser.create(user, false, callback);
 
 }
 function getByGoogleId(googleId, callback) {
