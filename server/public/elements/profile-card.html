@@ -171,25 +171,33 @@ paper-input {
         var user = "/user/email/" + email;
         var that = this;
         var newname = this.$.username.value
-        var login =this.$.login_card;
+        var login_card =this.$.login_card;
  
         $.getJSON(user,function(result){
-          login.setUser(result, newname);
+          login_card.setGoogleUser(result, newname);
         });
-        this.showChanged = !this.showChanged;
+        this.name = newname;
         this.$.username.value = "";
         this.ready();
+        
+
       },
       handleDelete: function() {
-        var email = this.email;
-        var user = "/user/email/" + email;
-        var that = this;
-        var login =this.$.login_card;
-
-        $.getJSON(user,function(result){
-          login.deleteUser(user);
-        });
-        this.showChanged = !this.showChanged;
+        if (confirm("Are you sure?") == true) {
+          var email = this.email;
+          var user = "/user/email/" + email;
+          var that = this;
+          var login_card =this.$.login_card;
+          var login = this.$.login;
+          
+          
+          $.getJSON(user,function(result){
+            console.log(login);  
+            login_card.deleteUser(result);
+          });
+          this.showChanged = !this.showChanged;
+          setTimeout(login.logout, 1000);
+        }
       },
       handleReturn: function(){
         this.showChanged = !this.showChanged;

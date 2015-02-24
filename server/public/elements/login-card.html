@@ -359,7 +359,9 @@ Polymer('login-card', {
       if(i >= 0){
         this.users.splice(i, 1);
       }
+      
     }.bind(this));
+
   },
     fireLogin: function() {
       this.fire('login');
