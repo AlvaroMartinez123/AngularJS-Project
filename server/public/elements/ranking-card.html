@@ -52,17 +52,20 @@
             height: 500px;
           }
         }
+      
     </style>
     <core-card id="core_card" layout vertical>
     <table>
     <thead>
       <tr >
+        <th>Position</th>
         <th>Player</th>
         <th>Score</th>
       </tr>
     </thead>
-      <template repeat="{{user in users}}">
+      <template repeat="{{user, userIndex in users}}">
         <tr>
+          <td>{{userIndex + 1}}</td>
           <td>{{user.name}}</td>
           <td>{{user.score}}</td>
         </tr>
@@ -80,6 +83,7 @@
       $.getJSON(user,function(result){
         that.users=result;
       });
+      
     }
 
     Polymer({
