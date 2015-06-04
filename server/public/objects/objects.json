@@ -1,0 +1,18 @@
+[
+    {
+        "id": "ages", 
+        "imageUrl": "img/champions/Alistar_0.jpg", 
+        "name": "Rod of Ages",
+        ""
+        "description": "As the mightiest warrior to ever emerge from the Minotaur tribes of the Great Barrier, Alistar defended his tribe from Valoran's many dangers; that is, until the coming of the Noxian army. Alistar was lured from his village by the machinations of Keiran Darkwill, General Boram Darkwill's youngest son and commander of the Noxian expeditionary force ..."
+    },
+    {
+        "id": "rabadon", 
+        "imageUrl": "img/champions/Alistar_0.jpg", 
+        "name": "Rabadon's Deathcap",
+        "ap" : 120
+       
+    }
+
+
+]

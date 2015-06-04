@@ -1,14 +1,13 @@
-var debug = require('debug')('Rapidshot');
+var debug = require('debug')('LoLStats');
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var fs = require('fs');
-var passport = require('passport');
+
 
 var app = express();
 
 var http = require('http').Server(app);
-var io = require('./util/socket.io')(http);
 
 
 app.use(bodyParser.json());
@@ -21,14 +20,9 @@ app.use(function(err, req, res, next){
 });
 
 
-app.use(passport.initialize());
 
-var basePath = path.join(__dirname, '/routes/');
-fs.readdirSync(basePath).forEach(function(filename) {
-	var basePathService = '/' + filename.replace(/\.js$/, '');
-	var serviceDefinition = basePath + filename;
-	app.use(basePathService, require(serviceDefinition)(io));
-});
+
+
 
 app.all('/*', function(req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
@@ -38,8 +32,8 @@ app.all('/*', function(req, res, next) {
 });
 
 
-var port =  process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 9001; 
-var ip =  process.env.OPENSHIFT_NODEJS_IP || process.env.IP || '0.0.0.0'; 
+var port = process.env.PORT || 9001; 
+var ip = process.env.IP || '0.0.0.0'; 
 
 http.listen(port, ip, function () {
 	debug('Application listening on http://' + ip + ':' + port);

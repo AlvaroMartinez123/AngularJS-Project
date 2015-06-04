@@ -1,0 +1,84 @@
+/* app css stylesheet */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+body {
+  background-color:  black !important;
+}
+.backdrop {
+  position: absolute;
+  width: 100%;
+  min-width: 1000px;
+  height: 1080px;
+  z-index: -10;
+  background-color: black;
+  background-image: url('../img/bg-default.jpg');
+  top: 0;
+}
+
+.thumb {
+  padding-left: 20px;
+  padding-top: 20px;
+}
+.thumb img{
+  width:159px;
+  height:290px;
+}
+
+
+.champions li {
+  clear: both;
+  width:100%;
+  padding-bottom:20px;
+  padding-right:20px;
+  padding-left:20px;
+}
+
+.search {
+  position:absolute;
+  right:0px;
+  top:0px;
+}
+
+.top-list{
+  text-align:left;
+  margin:0px;
+  padding-bottom: 10px;
+}
+
+.top-list h2 {
+  margin-top: 0px;
+}
+ul {
+  padding-left: 0px;
+}
+.desc-container {
+  padding: 0px;
+  padding-top: 20px;
+  font-size: 1.2em;
+}
+.desc-container a {
+  font-size: 1.63333em;
+}
+.list-container {
+  display: block;
+  padding: 20px;
+  margin-bottom: 20px;
+  line-height: 1.42857143;
+  background-color: #e9eaec;
+  border: 1px solid #A5A5A5;
+  border-radius: 4px;
+  -webkit-transition: border .2s ease-in-out;
+  -o-transition: border .2s ease-in-out;
+  transition: border .2s ease-in-out;
+  
+}
+@media screen and (max-width: 700px) { 
+  .list-container {
+    opacity:0.9;
+  }
+  .champions li{
+    text-align:center;
+  }
+}

@@ -1,0 +1,69 @@
+<div class="backdrop" style="background-image: url('{{champion.images.background}}')"></div>
+<div ng-include src="'partials/header.html'"></div>  
+<div class="container">
+    <div class="row">
+        <div class="col-md-12  floating-name">
+            <h2>{{champion.name}}</h2>
+            <h4><i>{{champion.nick}}</i></h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 container-detail">
+            <div class="col-md-6 name-stats">
+                <div class="row name-container">
+                    <div class="col-md-3">
+                        <img ng-src="{{champion.images.profile}}" class="champion">
+                    </div>
+                    <div class="col-md-9">
+                        <h1>{{champion.name}}</h1>
+                        
+                        <p>{{champion.nick}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 stats-container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Health:</p>
+                                <p>{{champion.stats.health.value}}</p>
+                                <p>Mana:</p>
+                                <p>{{champion.stats.mana.value}}</p>
+                                <p>Attack Damage:</p>
+                                <p>{{champion.stats.ad}}</p>
+                                <p>Attack Speed:</p>
+                                <p>{{champion.stats.as}}</p>
+                                <p>Movement Speed:</p>
+                                <p>{{champion.stats.ms}}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p>Health Regen:</p>
+                                <p>{{champion.stats.health.regen}}</p>
+                                <p>Mana Regen:</p>
+                                <p>{{champion.stats.mana.regen}}</p>
+                                <p>Ability Power:</p>
+                                <p>{{champion.stats.ap}}</p>
+                                <p>Armor:</p>
+                                <p>{{champion.stats.armor}}</p>
+                                <p>Magic Resist:</p>
+                                <p>{{champion.stats.mr}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                Level: <input type="number" min="1" max="18" ng-model="level"
+                         ng-change="getStatsByLevel('{{level}}', level)">
+                        
+                <p>Objects:</p>
+              
+                <div ng-repeat="i in championObjects track by $index">
+                    <select ng-model="champion.object" ng-change="getStatsByObject()">
+                      <option ng-repeat="objs in objects">{{objs.name}}</option>
+                    </select>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>

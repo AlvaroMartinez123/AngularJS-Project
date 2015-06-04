@@ -1,0 +1,36 @@
+
+<div ng-include src="'partials/header.html'"></div>  
+<div class="backdrop"></div>
+
+<div class="container">
+  <div class="row">
+    
+        <div class="col-md-12 list-container">
+          <div class="row top-list">
+            <div class="col-xs-5 col-md-3">
+              <h2>Champions List</h2>
+            </div>
+            <div class="col-xs-5 col-md-3 col-md-offset-5 col-xs-offset-0">
+              <input class="search" placeholder="Search Champions" ng-model="query">
+            </div>
+          </div>
+          <ul class="champions">
+            <li ng-repeat="champion in champions | filter:query" class="thumbnail">
+              <div class="row">
+                <div class="col-md-2 img-container">
+                  <a href="#/champions/{{champion.id}}" class="thumb"><img ng-src="{{champion.imageUrl}}"></a>
+                </div>
+                <div class="col-md-10 desc-container">
+                  <a href="#/champions/{{champion.id}}">{{champion.name}}</a>
+                  <p>{{champion.nick}}</p>
+                  <br>
+                  <p>{{champion.description}}</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+    
+        </div>
+     
+  </div>
+</div>

@@ -1,0 +1,42 @@
+{
+    "name" : "Anivia",
+    "nick" : "The Cryophoenix",
+    "stats" : {
+        "health" : {
+            "value": 467.6,
+            "regen": 5.57
+        },
+        "mana" : {
+            "value": 346.04,
+            "regen": 6
+        },
+        "ad" : 346.04,
+        "ap" : 0,
+        "as" : 0.625,
+        "armor" : 21.22,
+        "mr" : 30,
+        "ms" : 325
+    },
+    
+    "statsPerLevel" : {
+        "health" : {
+            "value": 70,
+            "regen": 0.55
+        },
+        "mana" : {
+            "value": 53,
+            "regen": 0.8
+        },
+        "ad" : 3.2,
+        "ap" : 0,
+        "as" : 1.68,
+        "armor" : 4,
+        "mr" : 0,
+        "ms" : 0
+    },
+    
+    "images" : {
+        "background" : "../img/champions/bg-anivia.jpg",
+        "profile" : "../img/champions/Anivia.png"
+    }
+}
