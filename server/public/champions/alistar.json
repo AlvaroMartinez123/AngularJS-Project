@@ -2,14 +2,10 @@
     "name" : "Alistar",
     "nick" : "The Minotaur",
     "stats" : {
-        "health" : {
-            "value": 613.36,
-            "regen": 8.675
-        },
-        "mana" : {
-            "value": 278.84,
-            "regen": 6
-        },
+        "health" : 613.36,
+        "healthRegen": 8.675,
+        "mana" : 278.84,
+        "manaRegen": 6,
         "ad" : 61.1116,
         "ap" : 0,
         "as" : 0.625,
@@ -19,14 +15,10 @@
     },
     
     "statsPerLevel" : {
-        "health" : {
-            "value": 102,
-            "regen": 0.85
-        },
-        "mana" : {
-            "value": 38,
-            "regen": 0.8
-        },
+        "health" : 102,
+        "healthRegen": 0.85,
+        "mana" : 38,
+        "manaRegen": 0.8,
         "ad" : 3.62,
         "ap" : 0,
         "as" : 2.125,

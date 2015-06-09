@@ -15,7 +15,8 @@
             </div>
           </div>
           <ul class="champions">
-            <li ng-repeat="champion in champions | filter:query" class="thumbnail">
+            <li ng-repeat="champion in champions |  filter: 
+            {name: query} | orderBy:'name'" class="thumbnail">
               <div class="row">
                 <div class="col-md-2 img-container">
                   <a href="#/champions/{{champion.id}}" class="thumb"><img ng-src="{{champion.imageUrl}}"></a>

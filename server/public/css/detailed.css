@@ -25,3 +25,20 @@
 .stats-container {
    margin-top:20px;
 }
+.object {
+    padding-bottom:30px;
+}
+.info {
+    float:right;
+}
+.objectsSelect {
+    margin-bottom: 3px;
+}
+.objectImage {
+    float:left;
+    padding-right:15px;
+}
+.objectsContainer {
+    margin-top: 30px;
+    overflow:hidden;
+}

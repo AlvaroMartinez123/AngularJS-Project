@@ -1,17 +1,53 @@
 [
     {
         "id": "ages", 
-        "imageUrl": "img/champions/Alistar_0.jpg", 
+        "imageUrl": "../img/objects/Rod_of_Ages_item.png", 
         "name": "Rod of Ages",
-        ""
-        "description": "As the mightiest warrior to ever emerge from the Minotaur tribes of the Great Barrier, Alistar defended his tribe from Valoran's many dangers; that is, until the coming of the Noxian army. Alistar was lured from his village by the machinations of Keiran Darkwill, General Boram Darkwill's youngest son and commander of the Noxian expeditionary force ..."
+        "stats" : {
+            "health" : 450,
+            "mana" : 450,
+            "ap" : 60
+        }
     },
     {
         "id": "rabadon", 
-        "imageUrl": "img/champions/Alistar_0.jpg", 
-        "name": "Rabadon's Deathcap",
-        "ap" : 120
-       
+        "imageUrl": "../img/objects/Rabadon_Deathcap_item.png", 
+        "name": "Rabadon Deathcap",
+        "stats" : {
+            "ap" : 120
+        }
+    },
+    {
+        "id": "warmog", 
+        "imageUrl": "../img/objects/Warmog_Armor_item.png", 
+        "name": "Warmog Armor",
+        "stats" : {
+            "health" : 800
+        }
+    },
+    {
+        "id": "thornmail", 
+        "imageUrl": "../img/objects/Thornmail_item.png", 
+        "name": "Thornmail",
+        "stats" : {
+            "armor" : 100
+        }
+    },
+    {
+        "id": "infinity", 
+        "imageUrl": "../img/objects/Infinity_Edge_item.png", 
+        "name": "Infinity Edge",
+        "stats" : {
+            "ad" : 80
+        }
+    },
+    {
+        "id": "swiftness", 
+        "imageUrl": "../img/objects/Boots_of_Swiftness_item.png", 
+        "name": "Boots of Swiftness",
+        "stats" : {
+            "ms" : 60
+        }
     }
 
 

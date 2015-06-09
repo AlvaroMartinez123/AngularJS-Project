@@ -2,14 +2,10 @@
     "name" : "Blitzcrank",
     "nick" : "the Great Steam Golem",
     "stats" : {
-        "health" : {
-            "value": "582.6",
-            "regen": "8.51"
-        },
-        "mana" : {
-            "value": "267.2",
-            "regen": "6"
-        },
+        "health" : 582.6,
+        "healthRegen": 8.51,
+        "mana" : 267.2,
+        "manaRegen": 6,
         "ad" : 61.54,
         "ap" : 0,
         "as" : 0.625,
@@ -19,14 +15,10 @@
     },
     
     "statsPerLevel" : {
-        "health" : {
-            "value": "95",
-            "regen": "0.75"
-        },
-        "mana" : {
-            "value": "40",
-            "regen": "0.8"
-        },
+        "health" : 95,
+        "healthRegen": 0.75,
+        "mana" : 40,
+        "manaRegen": 0.8,
         "ad" : 3.5,
         "ap" : 0,
         "as" : 1.13,

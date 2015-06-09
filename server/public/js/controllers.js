@@ -20,20 +20,67 @@ lolStatsControllers.controller('ChampionDetailCtrl', ['$scope', '$routeParams', 
     $scope.level = 1;
     $scope.championObjects = new Array(6);
     
-    $scope.getStatsByLevel = function (prevLevel, newLevel){
-      var levelDifference = newLevel - prevLevel;
-      $scope.calculateStatsByLevel(levelDifference);
+    $scope.$watch('level', function (newLevel, prevLevel) {
+        if(newLevel <= 18){
+          var levelDifference = newLevel - prevLevel;
+          $scope.calculateStatsByLevel(levelDifference);
+        }
+    });
+    
+    $scope.getStatsByObject = function (newObject, prevObject) {
+        
+        if (prevObject !== ""){
+          prevObject = angular.fromJson(prevObject);
+          $scope.calculateStatsByObject(newObject, prevObject);
+        } else {
+          $scope.calculateStatsByObject(newObject);
+        } 
+
     };
+    
+    
+    
+    $scope.calculateStatsByObject = function (newObject, prevObject){
+      
+      if(!prevObject) {
+        
+        angular.forEach($scope.champion.stats, function(value, key){
+          
+          angular.forEach(newObject.stats, function(objectValue, objectKey){
+            if (objectKey === key){
+              $scope.champion.stats[key] = $scope.champion.stats[key] + objectValue;
+            }
+          });
+          
+        });
+      } else {
+        angular.forEach($scope.champion.stats, function(value, key){
+          
+          angular.forEach(prevObject.stats, function(objectValue, objectKey){
+            if (objectKey === key){
+              $scope.champion.stats[key] = $scope.champion.stats[key] - objectValue;
+            }
+          });
+          angular.forEach(newObject.stats, function(objectValue, objectKey){
+            if (objectKey === key){
+              $scope.champion.stats[key] = $scope.champion.stats[key] + objectValue;
+            }
+          });
+        });
+      }
+    };
+  
     
     $scope.calculateStatsByLevel = function (levelDifference) {
       
       
       if (levelDifference > 0) {
+        
     
-        $scope.champion.stats.health.value = Math.round(($scope.champion.stats.health.value + $scope.champion.statsPerLevel.health.value * levelDifference)* 1000) / 1000;
-        $scope.champion.stats.health.regen = Math.round(($scope.champion.stats.health.regen + $scope.champion.statsPerLevel.health.regen * levelDifference)* 1000) / 1000;
-        $scope.champion.stats.mana.value = Math.round(($scope.champion.stats.mana.value + $scope.champion.statsPerLevel.mana.value * levelDifference)* 1000) / 1000;
-        $scope.champion.stats.mana.regen = Math.round(($scope.champion.stats.mana.regen + $scope.champion.statsPerLevel.mana.regen * levelDifference)* 1000) / 1000;
+        $scope.champion.stats.health = Math.round(($scope.champion.stats.health + $scope.champion.statsPerLevel.health * levelDifference)* 1000) / 1000;
+        $scope.champion.stats.healthRegen = Math.round(($scope.champion.stats.healthRegen + $scope.champion.statsPerLevel.healthRegen * levelDifference)* 1000) / 1000;
+        $scope.champion.stats.mana = Math.round(($scope.champion.stats.mana + $scope.champion.statsPerLevel.mana * levelDifference)* 1000) / 1000;
+        $scope.champion.stats.manaRegen = Math.round(($scope.champion.stats.manaRegen + $scope.champion.statsPerLevel.manaRegen * levelDifference)* 1000) / 1000;
         $scope.champion.stats.ad = Math.round(($scope.champion.stats.ad + $scope.champion.statsPerLevel.ad * levelDifference)* 1000) / 1000;
         $scope.champion.stats.ap = Math.round(($scope.champion.stats.ap + $scope.champion.statsPerLevel.ap * levelDifference)* 1000) / 1000;
         $scope.champion.stats.as = Math.round(($scope.champion.stats.as + ($scope.champion.stats.as * ($scope.champion.statsPerLevel.as * levelDifference) / 100))* 1000) / 1000;
@@ -45,10 +92,10 @@ lolStatsControllers.controller('ChampionDetailCtrl', ['$scope', '$routeParams', 
         
         if (levelDifference < 0) {
           
-          $scope.champion.stats.health.value = Math.round(($scope.champion.stats.health.value - $scope.champion.statsPerLevel.health.value * Math.abs(levelDifference))* 1000) / 1000;
-          $scope.champion.stats.health.regen = Math.round(($scope.champion.stats.health.regen - $scope.champion.statsPerLevel.health.regen * Math.abs(levelDifference))* 1000) / 1000;
-          $scope.champion.stats.mana.value = Math.round(($scope.champion.stats.mana.value - $scope.champion.statsPerLevel.mana.value * Math.abs(levelDifference))* 1000) / 1000;
-          $scope.champion.stats.mana.regen = Math.round(($scope.champion.stats.mana.regen - $scope.champion.statsPerLevel.mana.regen * Math.abs(levelDifference))* 1000) / 1000;
+          $scope.champion.stats.health = Math.round(($scope.champion.stats.health - $scope.champion.statsPerLevel.health * Math.abs(levelDifference))* 1000) / 1000;
+          $scope.champion.stats.healthRegen = Math.round(($scope.champion.stats.healthRegen - $scope.champion.statsPerLevel.healthRegen * Math.abs(levelDifference))* 1000) / 1000;
+          $scope.champion.stats.mana = Math.round(($scope.champion.stats.mana - $scope.champion.statsPerLevel.mana * Math.abs(levelDifference))* 1000) / 1000;
+          $scope.champion.stats.manaRegen = Math.round(($scope.champion.stats.manaRegen - $scope.champion.statsPerLevel.manaRegen * Math.abs(levelDifference))* 1000) / 1000;
           $scope.champion.stats.ad = Math.round(($scope.champion.stats.ad - $scope.champion.statsPerLevel.ad * Math.abs(levelDifference))* 1000) / 1000;
           $scope.champion.stats.ap = Math.round(($scope.champion.stats.ap - $scope.champion.statsPerLevel.ap * Math.abs(levelDifference))* 1000) / 1000;
           $scope.champion.stats.as = Math.round(($scope.champion.stats.as - ($scope.champion.stats.as * ($scope.champion.statsPerLevel.as * Math.abs(levelDifference)) / 100))* 1000) / 1000;

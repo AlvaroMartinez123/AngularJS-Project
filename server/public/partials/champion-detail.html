@@ -25,9 +25,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <p>Health:</p>
-                                <p>{{champion.stats.health.value}}</p>
+                                <p>{{champion.stats.health}}</p>
                                 <p>Mana:</p>
-                                <p>{{champion.stats.mana.value}}</p>
+                                <p>{{champion.stats.mana}}</p>
                                 <p>Attack Damage:</p>
                                 <p>{{champion.stats.ad}}</p>
                                 <p>Attack Speed:</p>
@@ -37,9 +37,9 @@
                             </div>
                             <div class="col-md-6">
                                 <p>Health Regen:</p>
-                                <p>{{champion.stats.health.regen}}</p>
+                                <p>{{champion.stats.healthRegen}}</p>
                                 <p>Mana Regen:</p>
-                                <p>{{champion.stats.mana.regen}}</p>
+                                <p>{{champion.stats.manaRegen}}</p>
                                 <p>Ability Power:</p>
                                 <p>{{champion.stats.ap}}</p>
                                 <p>Armor:</p>
@@ -52,17 +52,28 @@
                 </div>
             </div>
             <div class="col-md-6">
-                Level: <input type="number" min="1" max="18" ng-model="level"
-                         ng-change="getStatsByLevel('{{level}}', level)">
+                Level: <input type="number" min="1" max="18" ng-model="level">
+                
+                <div class="row">
+                    
+                    <div class="objectsContainer" ng-repeat="championObject in championObjects track by $index" >
+                        <p>Object {{$index + 1}} 
+                        <select 
+                        class="objectsSelect" 
+                        ng-model="championObject" 
+                        ng-options="obj.name for obj in objects"
+                        ng-change="getStatsByObject(championObject, '{{championObject}}')">
+                        </select>
+                        </p>
+                    
+                        <img class="objectImage" src="{{championObject.imageUrl}}"></img>
+                        <div ng-repeat="(name, value) in championObject.stats">
+                            <p>+{{value}} {{name}}</p>
+                        </div>
                         
-                <p>Objects:</p>
-              
-                <div ng-repeat="i in championObjects track by $index">
-                    <select ng-model="champion.object" ng-change="getStatsByObject()">
-                      <option ng-repeat="objs in objects">{{objs.name}}</option>
-                    </select>
+                    </div>
+                    
                 </div>
-               
             </div>
         </div>
     </div>

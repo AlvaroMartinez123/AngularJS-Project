@@ -2,14 +2,10 @@
     "name" : "Anivia",
     "nick" : "The Cryophoenix",
     "stats" : {
-        "health" : {
-            "value": 467.6,
-            "regen": 5.57
-        },
-        "mana" : {
-            "value": 346.04,
-            "regen": 6
-        },
+        "health" : 467.6,
+        "healthRegen": 5.57,
+        "mana" :  346.04,
+        "manaRegen": 6,
         "ad" : 346.04,
         "ap" : 0,
         "as" : 0.625,
@@ -19,14 +15,10 @@
     },
     
     "statsPerLevel" : {
-        "health" : {
-            "value": 70,
-            "regen": 0.55
-        },
-        "mana" : {
-            "value": 53,
-            "regen": 0.8
-        },
+        "health" : 70,
+        "healthRegen": 0.55,
+        "mana" :  53,
+        "manaRegen": 0.8,
         "ad" : 3.2,
         "ap" : 0,
         "as" : 1.68,
