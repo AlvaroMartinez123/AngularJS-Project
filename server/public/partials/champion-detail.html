@@ -57,18 +57,23 @@
                 <div class="row">
                     
                     <div class="objectsContainer" ng-repeat="championObject in championObjects track by $index" >
-                        <p>Object {{$index + 1}} 
-                        <select 
-                        class="objectsSelect" 
-                        ng-model="championObject" 
-                        ng-options="obj.name for obj in objects"
-                        ng-change="getStatsByObject(championObject, '{{championObject}}')">
-                        </select>
-                        </p>
-                    
-                        <img class="objectImage" src="{{championObject.imageUrl}}"></img>
-                        <div ng-repeat="(name, value) in championObject.stats">
-                            <p>+{{value}} {{name}}</p>
+                        <div class="divSelect">
+                            <p>Object {{$index + 1}} 
+                            <select 
+                            class="objectsSelect" 
+                            ng-model="championObject" 
+                            ng-options="obj.name for obj in objects"
+                            ng-change="getStatsByObject(championObject, '{{championObject}}')">
+                            </select>
+                            </p>
+                        </div>
+                        <div class="objectInfo">
+                            <img class="objectImage" src="{{championObject.imageUrl}}"></img>
+                            <div class="objectStats">
+                                <div ng-repeat="(name, value) in championObject.stats">
+                                    <p>+{{value}} {{name}}</p>
+                                </div>
+                            </div>
                         </div>
                         
                     </div>

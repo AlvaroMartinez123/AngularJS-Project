@@ -58,7 +58,7 @@ lolStatsControllers.controller('ChampionDetailCtrl', ['$scope', '$routeParams', 
           
           angular.forEach(prevObject.stats, function(objectValue, objectKey){
             if (objectKey === key){
-              $scope.champion.stats[key] = $scope.champion.stats[key] - objectValue;
+              $scope.champion.stats[key] = Math.round(($scope.champion.stats[key] - objectValue) * 1000) / 1000;
             }
           });
           angular.forEach(newObject.stats, function(objectValue, objectKey){
