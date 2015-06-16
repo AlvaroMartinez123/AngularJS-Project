@@ -1,12 +1,5 @@
 [
     {
-        "id": "alistar", 
-        "imageUrl": "img/champions/Alistar_0.jpg", 
-        "name": "Alistar",
-        "nick": "the Minotaur",
-        "description": "As the mightiest warrior to ever emerge from the Minotaur tribes of the Great Barrier, Alistar defended his tribe from Valoran's many dangers; that is, until the coming of the Noxian army. Alistar was lured from his village by the machinations of Keiran Darkwill, General Boram Darkwill's youngest son and commander of the Noxian expeditionary force ..."
-    }, 
-    {
         "id": "anivia", 
         "imageUrl": "img/champions/Anivia_0.jpg", 
         "name": "Anivia",
@@ -14,12 +7,26 @@
         "description": "Anivia is a being of the coldest winter, a mystical embodiment of ice magic, and an ancient protector of the Freljord. She commands all the power and fury of the land itself, calling the snow and bitter wind to defend her home from those who would harm it. A benevolent but mysterious creature, Anivia is eternally bound to keep vigil over the Freljord through life, death, and rebirth ..."
     },
     {
+        "id": "alistar", 
+        "imageUrl": "img/champions/Alistar_0.jpg", 
+        "name": "Alistar",
+        "nick": "the Minotaur",
+        "description": "As the mightiest warrior to ever emerge from the Minotaur tribes of the Great Barrier, Alistar defended his tribe from Valoran's many dangers; that is, until the coming of the Noxian army. Alistar was lured from his village by the machinations of Keiran Darkwill, General Boram Darkwill's youngest son and commander of the Noxian expeditionary force ..."
+    }, 
+    {
         "id": "blitzcrank", 
         "imageUrl": "img/champions/Blitzcrank_0.jpg", 
         "name": "Blitzcrank",
         "nick": "the Great Steam Golem",
         "description": "The city of Zaun is a place where both magic and science have gone awry. The unchecked nature of experimentation has taken its toll on the city. However, Zaun's lenient restrictions allow their researchers and inventors the leeway to push the bounds of science at an accelerated rate, for better or worse ..."
-    } 
+    },
+    {
+        "id": "draven", 
+        "imageUrl": "img/champions/Draven_0.jpg", 
+        "name": "Draven",
+        "nick": "the Glorious Executioner",
+        "description": "Unlike his brother Darius, victory in battle was never enough for Draven. He craved recognition, acclaim, and glory. He first sought greatness in the Noxian military, but his flair for the dramatic went severely underappreciated ..."
+    }
 
 
 ]
